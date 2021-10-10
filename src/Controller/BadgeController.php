@@ -6,10 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/badge")
+ */
 class BadgeController extends AbstractController
 {
     /**
-     * @Route("/badge", name="badge")
+     * @Route("/", name="badge_recherche")
      */
     public function index(): Response
     {

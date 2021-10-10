@@ -283,7 +283,7 @@
 							"site_id": 422630,
 							"transaction_id": response.transaction_id,
 							"description": response.description,
-							"return_url": '{{ absolute_url(path('app_home')) }}',
+							"return_url": '{{ absolute_url(path('badge_recherche')) }}',
 							"notify_url": '{{ absolute_url(path('cinetpay_notify')) }}',
 							"customer_id": response.matricule,
 							"customer_name": response.nom,
@@ -305,7 +305,7 @@
                                 }
                             }).done(function (res) {
                                 console.log(res)
-                                window.location = res.url
+                                //window.location = res.url
                             })
                         }
                     })
