@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="Adherant", indexes={@ORM\Index(name="IDX_6EAC3AEA7A45358C", columns={"groupe_id"})})
  * @ORM\Entity(repositoryClass=AdherantRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Adherant
 {
@@ -480,6 +481,21 @@ class Adherant
 
         return $this;
     }
-
+	
+	/**
+	 * @ORM\PrePersist
+	 */
+	public function setCreatedAtValue(): \DateTime
+	{
+		return $this->createdat = new \DateTime();
+	}
+	
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function setUpdatedAtValue(): \DateTime
+	{
+		return $this->updatedat = new \DateTime();
+	}
 
 }

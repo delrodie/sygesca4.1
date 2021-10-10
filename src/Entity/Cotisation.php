@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use App\Repository\CotisationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Cotisation
  *
  * @ORM\Table(name="Cotisation", indexes={@ORM\Index(name="IDX_E139D13D6A99F74A", columns={"membre_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CotisationRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Cotisation
 {
@@ -199,6 +201,14 @@ class Cotisation
 
         return $this;
     }
+	
+	/**
+	 * @ORM\PrePersist
+	 */
+	public function setCreatedAtValue(): \DateTime
+	{
+		return $this->createdat = new \DateTime();
+	}
 
 
 }
