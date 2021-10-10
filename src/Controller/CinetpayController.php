@@ -126,7 +126,7 @@
 								$adherant->setStatuspaiement('VALID');
 								$adherant->setResult('00');
 								$adherant->setCotisation($membre['scout']->getCotisation());
-								$adherant->setCotisation($membre['scout']->getCarte());
+								$adherant->setCarte($membre['scout']->getCarte());
 								
 								$this->em->flush();
 							}
