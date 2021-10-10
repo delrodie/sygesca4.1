@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Adherant;
 use App\Entity\Membre;
 use App\Utilities\GestionAdhesion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +28,18 @@ class BadgeController extends AbstractController
      */
     public function index(Request $request): Response
     {
-		dd($request);
+		$token = $request->get('token');
+		if ($token){
+			$adherant = $this->getDoctrine()->getRepository(Adherant::class)->findOneBy(['token'=>$token]);
+			if ($adherant){
+				$scout = $this->getDoctrine()->getRepository(Membre::class)->findOneBy(['matricule'=>$adherant->getMatricule()]);
+				if ($scout){
+					return  $this->render('badge/carte.html.twig',[
+						'scout' => $scout
+					]);
+				}
+			}
+		}
         return $this->render('badge/index.html.twig', [
             'controller_name' => 'BadgeController',
         ]);
