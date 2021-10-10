@@ -8,7 +8,7 @@
 			<div class="col-md-3">
 				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
 					<div>
-						<h3 class="fs-2">720</h3>
+						<h3 class="fs-2">{{ branche.louveteau|number_format(0,'','.') }}</h3>
 						<p class="fs-5">Louveteaux</p>
 					</div>
 					<i class="fas fa-users fs-1 louveteau border rounded-full bg-louveteau p-3"></i>
@@ -18,7 +18,7 @@
 			<div class="col-md-3">
 				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
 					<div>
-						<h3 class="fs-2">4920</h3>
+						<h3 class="fs-2">{{ branche.eclaireur|number_format(0,'','.') }}</h3>
 						<p class="fs-5">Eclaireurs</p>
 					</div>
 					<i class="fas fa-users fs-1 text-white border rounded-full bg-eclaireur p-3"></i>
@@ -28,7 +28,7 @@
 			<div class="col-md-3">
 				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
 					<div>
-						<h3 class="fs-2">3899</h3>
+						<h3 class="fs-2">{{ branche.cheminot|number_format(0,'','.') }}</h3>
 						<p class="fs-5">Cheminots</p>
 					</div>
 					<i class="fas fa-users fs-1 primary-text border rounded-full bg-cheminot p-3"></i>
@@ -38,7 +38,7 @@
 			<div class="col-md-3">
 				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
 					<div>
-						<h3 class="fs-2">%25</h3>
+						<h3 class="fs-2">{{ branche.routier|number_format(0,'','.') }}</h3>
 						<p class="fs-5">Routiers</p>
 					</div>
 					<i class="fas fa-users fs-1 text-white border rounded-full bg-routier p-3"></i>
@@ -48,65 +48,63 @@
 
 		<div class="row my-5">
 			<div class="card">
-				<div class="card-body">
-					<div class="card-title">Statistiques par Région</div>
-					<h6 class="card-subtitle"><i class="fas fa-print" onclick="imprimer('impression')"></i></h6>
-					<table class="table mt-5 table-responsive" id="impression">
-						<thead>
-						<tr>
-							<th>REGION</th>
-							<th>TOTAL</th>
-							<th>JEUNE</th>
-							<th>ADULTE</th>
-							<th>HOMME</th>
-							<th>FEMME</th>
-							<th>LOUVETEAU</th>
-							<th>ECLAIREUR</th>
-							<th>CHEMINOT</th>
-							<th>ROUTIER</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<th>1</th>
-							<td><a href="profil.html">AMOIKON DIeudonné</a>    </td>
-							<td>Koffi Jeannot</td>
-							<td>TAnoh Stéphane </td>
-							<td>Ouatara Hamed</td>
-							<td>Diomandé salif et jacques</td>
-							<td>Diomandé salif et jacques</td>
-							<td>Diomandé salif et jacques</td>
-							<td>Je teste le tablea fixe</td>
-							<td class="text-center">
-								<a href="#">
-									<i class="fas fa-ellipsis-v" data-bs-toggle="dropdown" aria-expanded="false"></i>
-									<ul class="dropdown-menu">
-										<li><a class="dropdown-item" href="#">Action</a></li>
-									</ul>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<th>1</th>
-							<td><a href="profil.html">AMOIKON DIeudonné</a>    </td>
-							<td>Koffi Jeannot</td>
-							<td>TAnoh Stéphane </td>
-							<td>Ouatara Hamed</td>
-							<td>Diomandé salif et jacques</td>
-							<td>Diomandé salif et jacques</td>
-							<td>Diomandé salif et jacques</td>
-							<td>Je teste le tablea fixe</td>
-							<td class="text-center">
-								<a href="#">
-									<i class="fas fa-ellipsis-v" data-bs-toggle="dropdown" aria-expanded="false"></i>
-									<ul class="dropdown-menu">
-										<li>valider</li>
-									</ul>
-								</a>
-							</td>
-						</tr>
-						</tbody>
-					</table>
+				<div class="card-body statistiques">
+					<div class="card-title">Statistiques par Région <i class="fas fa-print" onclick="imprimer('impression')"></i></div>
+					<h6 class="card-subtitle"></h6>
+					<div id="impression">
+						<table class="table mt-5 table-responsive">
+							<thead>
+							<tr>
+								<th>REGION</th>
+								<th>TOTAL</th>
+								<th>JEUNE</th>
+								<th>ADULTE</th>
+								<th>HOMME</th>
+								<th>FEMME</th>
+								<th>LOUVETEAU</th>
+								<th>ECLAIREUR</th>
+								<th>CHEMINOT</th>
+								<th>ROUTIER</th>
+							</tr>
+							</thead>
+							<tbody>
+							{% set tot=0 %}{% set jeune=0 %}{% set adulte=0 %}{% set homme=0 %}{% set femme=0 %}
+							{% set louveteau=0 %}{% set eclaireur=0 %}{% set cheminot=0 %}{% set routier=0 %}
+							{% for region in regions %}
+								<tr>
+									<td>{{ region.nom }}</td>
+									<td style="text-align:center;">{{ region.total }}</td>
+									<td style="text-align:center;">{{ region.jeune }}</td>
+									<td style="text-align:center;">{{ region.adulte }}</td>
+									<td style="text-align:center;">{{ region.homme }}</td>
+									<td style="text-align:center;">{{ region.femme }}</td>
+									<td style="text-align:center;">{{ region.louveteau }}</td>
+									<td style="text-align:center;">{{ region.eclaireur }}</td>
+									<td style="text-align:center;">{{ region.cheminot }}</td>
+									<td style="text-align:center;">{{ region.routier }}</td>
+								</tr>
+								{% set tot= tot + region.total %}{% set jeune= jeune + region.jeune %}{% set adulte= adulte + region.adulte %}
+								{% set homme= homme + region.homme %}{% set femme= femme + region.femme %} {% set louveteau= louveteau + region.louveteau %}
+								{% set eclaireur= eclaireur + region.eclaireur %}{% set cheminot= cheminot + region.cheminot %}{% set routier= routier + region.routier %}
+							{% endfor %}
+							<tr><td colspan="10"></td></tr>
+							</tbody>
+							<tfoot>
+							<tr>
+								<th>TOTAUX</th>
+								<th style="text-align:center;">{{ tot }}</th>
+								<th style="text-align:center;">{{ jeune }}</th>
+								<th style="text-align:center;">{{ adulte }}</th>
+								<th style="text-align:center;">{{ homme }}</th>
+								<th style="text-align:center;">{{ femme }}</th>
+								<th style="text-align:center;">{{ louveteau }}</th>
+								<th style="text-align:center;">{{ eclaireur }}</th>
+								<th style="text-align:center;">{{ cheminot }}</th>
+								<th style="text-align:center;">{{ routier }}</th>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
 				</div>
 			</div>
 

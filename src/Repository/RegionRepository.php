@@ -19,4 +19,24 @@
 		{
 			parent::__construct($registry, Region::class);
 		}
+		
+		
+		public function liste()
+		{
+			return $this->createQueryBuilder('r');
+		}
+		
+		public function listeActive()
+		{
+			return $this->createQueryBuilder('r')->where('r.id BETWEEN 4 AND 18');
+		}
+		
+		public function findListActive()
+		{
+			return $this->createQueryBuilder('r')
+				->where('r.id BETWEEN 4 AND 18')
+				->getQuery()->getResult()
+				;
+		}
+		
 	}

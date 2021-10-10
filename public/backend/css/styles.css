@@ -130,3 +130,13 @@
   text-decoration: none;
   color: var(--vert);
 }
+
+.statistiques .card-title{
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--bleu);
+}
+.statistiques .card-title i{
+  float: right;
+}
