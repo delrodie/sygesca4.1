@@ -147,9 +147,8 @@
 		{
 			$scout = $this->getDoctrine()->getRepository(Membre::class)->findOneBy(['matricule'=>$adherant->getMatricule()]);
 			$region = $this->getDoctrine()->getRepository(Region::class)->findOneBy(['id' => $adherant->getGroupe()->getDistrict()->getRegion()]);
-			if (!$adherant->getMatricule()){ //die('ici');
+			if ($adherant->getOldId() === 0 || $adherant->getOldId() === '00'){ //die('ici');
 				$scout = new Membre();
-				
 				
 				// Nombre de scout
 				$compteur = $this->getDoctrine()->getRepository(Compteur::class)->findOneBy([],['id'=>'DESC'],1);
@@ -165,16 +164,20 @@
 					$this->em->flush();
 				}
 				$id = $nombre;
-			}elseif (!$scout){
+			}else{
+				$id = $adherant->getOldId();
+			}
+			
+			if(!$scout){
 				$scout = new Membre();
 				$slug = $adherant->getSlug();
 				$matricule = $adherant->getMatricule();
-				$id = $adherant->getOldId();
 			}else{
 				$slug = $scout->getSlug();
 				$matricule = $scout->getMatricule();
 				$id = $adherant->getOldId();
 			}
+			
 			$scout->setSlug($adherant->getSlug());
 			$scout->setMatricule($adherant->getMatricule());
 			$scout->setNom($adherant->getNom());
