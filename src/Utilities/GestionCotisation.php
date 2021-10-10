@@ -36,8 +36,8 @@
 			
 			$scout->setCotisation($annee);
 			
-			$this->_em->persist($cotisation);
-			$this->_em->flush();
+			$this->em->persist($cotisation);
+			$this->em->flush();
 			
 			return true;
 		}
