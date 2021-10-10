@@ -23,10 +23,11 @@ class BadgeController extends AbstractController
 	}
 	
     /**
-     * @Route("/", name="badge_recherche", methods={"GET"})
+     * @Route("/", name="badge_recherche", methods={"GET","POST"})
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+		dd($request);
         return $this->render('badge/index.html.twig', [
             'controller_name' => 'BadgeController',
         ]);
