@@ -204,7 +204,7 @@ h4{
     font-size: 0.9rem;
 }
 .bouton-submit .btn:hover i{
-    transform: rotate(-90deg);
+    transform: rotate(315deg);
     font-weight: bold;
 }
 .formulaire form{
@@ -215,4 +215,11 @@ h4{
 }
 .etape ul{
     text-align: center;
+}
+.montant{
+    font-size: .9rem;
+}
+.montant #montant_adhesion{
+    font-weight: bold;
+    font-size: 1.4rem;
 }

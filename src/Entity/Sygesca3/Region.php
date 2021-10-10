@@ -2,13 +2,14 @@
 
 namespace App\Entity\Sygesca3;
 
+use App\Repository\RegionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Region
  *
  * @ORM\Table(name="region")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=RegionRepository::class)
  */
 class Region
 {

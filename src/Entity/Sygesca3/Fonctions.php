@@ -2,13 +2,14 @@
 
 namespace App\Entity\Sygesca3;
 
+use App\Repository\FonctionsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Fonctions
  *
  * @ORM\Table(name="fonctions")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=FonctionsRepository::class)
  */
 class Fonctions
 {

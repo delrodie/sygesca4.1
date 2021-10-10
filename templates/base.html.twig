@@ -33,9 +33,7 @@
             <link rel="stylesheet" href="{{ absolute_url(asset('assets/css/style.css')) }}">
             <link rel="stylesheet" href="{{ absolute_url(asset('assets/css/responsive.css')) }}">
         {% endblock %}
-        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com/">
-        <link rel="dns-prefetch" href="https://unpkg.com">
+
     </head>
     <body>
         <div class="wrapper">
@@ -90,7 +88,7 @@
                                             throw new Error(response.statusText)
                                         }
                                         let matricule = response.matricule;
-                                        //console.log(matricule)
+                                        console.log(matricule)
                                         return response.json()
 
                                     })
@@ -115,7 +113,7 @@
                                 console.log(donnee.matricule)
                                 //dump();
                                 //window.location = "http://adhesion.scoutascci.org/";
-                                window.location = "{{ absolute_url(path('app_home')) }}recherche/matricule/"+ donnee.slug;
+                                window.location = "{{ absolute_url(path('app_home')) }}recherche/"+ donnee.slug;
                             }
                         }
                     })

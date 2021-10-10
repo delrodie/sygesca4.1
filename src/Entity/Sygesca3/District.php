@@ -2,13 +2,14 @@
 
 namespace App\Entity\Sygesca3;
 
+use App\Repository\DistrictRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * District
  *
  * @ORM\Table(name="district", indexes={@ORM\Index(name="IDX_31C1548798260155", columns={"region_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DistrictRepository::class)
  */
 class District
 {
