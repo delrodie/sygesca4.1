@@ -1,20 +1,129 @@
-{% extends 'base.html.twig' %}
+{% extends 'backend_layout.html.twig' %}
 
-{% block title %}Hello SygescaDashboardController!{% endblock %}
-
+{% block title %}{{ parent() }} Tableau de bord{% endblock %}
+{% block entete %}Tableau de bord{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="container-fluid px-4">
+		<div class="row g-3 my-2 branche">
+			<div class="col-md-3">
+				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+					<div>
+						<h3 class="fs-2">720</h3>
+						<p class="fs-5">Louveteaux</p>
+					</div>
+					<i class="fas fa-users fs-1 louveteau border rounded-full bg-louveteau p-3"></i>
+				</div>
+			</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+			<div class="col-md-3">
+				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+					<div>
+						<h3 class="fs-2">4920</h3>
+						<p class="fs-5">Eclaireurs</p>
+					</div>
+					<i class="fas fa-users fs-1 text-white border rounded-full bg-eclaireur p-3"></i>
+				</div>
+			</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/delrodie/www/applications/ascci/sygesca4.1/src/Controller/SygescaDashboardController.php'|file_link(0) }}">src/Controller/SygescaDashboardController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/delrodie/www/applications/ascci/sygesca4.1/templates/sygesca_dashboard/index.html.twig'|file_link(0) }}">templates/sygesca_dashboard/index.html.twig</a></code></li>
-    </ul>
-</div>
+			<div class="col-md-3">
+				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+					<div>
+						<h3 class="fs-2">3899</h3>
+						<p class="fs-5">Cheminots</p>
+					</div>
+					<i class="fas fa-users fs-1 primary-text border rounded-full bg-cheminot p-3"></i>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+					<div>
+						<h3 class="fs-2">%25</h3>
+						<p class="fs-5">Routiers</p>
+					</div>
+					<i class="fas fa-users fs-1 text-white border rounded-full bg-routier p-3"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="row my-5">
+			<div class="card">
+				<div class="card-body">
+					<div class="card-title">Statistiques par Région</div>
+					<h6 class="card-subtitle"><i class="fas fa-print" onclick="imprimer('impression')"></i></h6>
+					<table class="table mt-5 table-responsive" id="impression">
+						<thead>
+						<tr>
+							<th>REGION</th>
+							<th>TOTAL</th>
+							<th>JEUNE</th>
+							<th>ADULTE</th>
+							<th>HOMME</th>
+							<th>FEMME</th>
+							<th>LOUVETEAU</th>
+							<th>ECLAIREUR</th>
+							<th>CHEMINOT</th>
+							<th>ROUTIER</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<th>1</th>
+							<td><a href="profil.html">AMOIKON DIeudonné</a>    </td>
+							<td>Koffi Jeannot</td>
+							<td>TAnoh Stéphane </td>
+							<td>Ouatara Hamed</td>
+							<td>Diomandé salif et jacques</td>
+							<td>Diomandé salif et jacques</td>
+							<td>Diomandé salif et jacques</td>
+							<td>Je teste le tablea fixe</td>
+							<td class="text-center">
+								<a href="#">
+									<i class="fas fa-ellipsis-v" data-bs-toggle="dropdown" aria-expanded="false"></i>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">Action</a></li>
+									</ul>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<th>1</th>
+							<td><a href="profil.html">AMOIKON DIeudonné</a>    </td>
+							<td>Koffi Jeannot</td>
+							<td>TAnoh Stéphane </td>
+							<td>Ouatara Hamed</td>
+							<td>Diomandé salif et jacques</td>
+							<td>Diomandé salif et jacques</td>
+							<td>Diomandé salif et jacques</td>
+							<td>Je teste le tablea fixe</td>
+							<td class="text-center">
+								<a href="#">
+									<i class="fas fa-ellipsis-v" data-bs-toggle="dropdown" aria-expanded="false"></i>
+									<ul class="dropdown-menu">
+										<li>valider</li>
+									</ul>
+								</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+        function imprimer(divName) {
+            console.log('impression')
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+	</script>
 {% endblock %}
