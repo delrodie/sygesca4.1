@@ -2,6 +2,9 @@
 
 namespace App\Controller\Backend;
 
+use App\Entity\Compte;
+use App\Entity\Sygesca3\District;
+use App\Entity\Sygesca3\Region;
 use App\Repository\RegionRepository;
 use App\Utilities\GestionCotisation;
 use App\Utilities\GestionScout;
@@ -35,7 +38,27 @@ class SygescaGestionController extends AbstractController
      */
     public function index(Request $request): Response
     {
-		$region = null;
+	    $user = $this->getUser();
+	    $role = $user->getRoles();
+	    // Si l'utilisateur a pour role 0 User alors verifier si c'est un regional
+	    if ($role[0] === 'ROLE_USER'){
+		    if ($role[1] === 'ROLE_REGION'){
+			    $compte = $this->getDoctrine()->getRepository(Compte::class)->findOneBy(['user'=>$user->getId()]);
+			
+			    //return $this->redirectToRoute('sygesca_gestion_region',['regionSlug'=>$compte->getRegion()->getSlug()]);
+			
+			    $districtID = $request->get('district');
+			    $result = $this->region($compte, $districtID);
+			
+			    return $this->render($result['template'],[
+				    'districts' => $result['districts'],
+				    'region' => $result['region'],
+				    'district' => $result['district']
+			    ]);
+		    }
+	    }
+	
+	    $region = null;
 	    // Request
 	    $regionID = $request->get('region'); //dd($regionID);
 	
@@ -69,5 +92,29 @@ class SygescaGestionController extends AbstractController
 		
 		return $this->json($scouts);
 		
+	}
+	
+	/**
+	 * @param $compte
+	 * @param $districtID
+	 * @return array
+	 */
+	protected function region($compte, $districtID)
+	{
+		$region = $this->getDoctrine()->getRepository(Region::class)->findOneBy(['slug'=>$compte->getRegion()->getSlug()]);
+		$district = null;
+		if ($districtID){
+			$district = $this->getDoctrine()->getRepository(District::class)->findOneBy(['id'=>$districtID]);
+			$template = 'sygesca_gestion/region_districts.html.twig';
+		}else{
+			$template = 'sygesca_gestion/region_liste.html.twig';
+		}
+		
+		return  [
+			'template' => $template,
+			'districts' => $this->getDoctrine()->getRepository(District::class)->findBy(['region'=>$region->getId()],['nom'=>"ASC"]),
+			'region' => $this->getDoctrine()->getRepository(Region::class)->findOneBy(['id'=>$region->getId()]),
+			'district' => $district
+		];
 	}
 }
