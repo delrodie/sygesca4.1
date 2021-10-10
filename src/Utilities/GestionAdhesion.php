@@ -103,7 +103,7 @@
 					'prenom' => $scout->getPrenoms(),
 					'id' => $scout->getId(),
 					'region' => $adherant['groupe']->getDistrict()->getRegion()->getNom(),
-					'description' => "Adhesion de ".$scout->getNom()." ".$scout->getPrenoms()." avec le matricule ".$scout->getMatricule(),
+					'description' => "Adhesion effective, votre matricule: ".$scout->getMatricule(),
 				];
 			}elseif($verifAdherant->getStatusPaiement()!== 'VALID'){
 				
@@ -119,7 +119,7 @@
 					'prenom' => $verifAdherant->getPrenoms(),
 					'id' => $verifAdherant->getId(),
 					'region' => $adherant['groupe']->getDistrict()->getRegion()->getNom(),
-					'description' => "Adhesion de ".$verifAdherant->getNom()." ".$verifAdherant->getPrenoms()." avec le matricule ".$verifAdherant->getMatricule(),
+					'description' => "Adhesion effective, votre matricule: ".$verifAdherant->getMatricule(),
 				];
 			}else{
 				$data=[

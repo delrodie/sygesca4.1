@@ -49,7 +49,7 @@
                 <li><a href="#" onclick="recherche()" class="las la-user-check" data-text="Ancien"></a></li>
                 <li><a href="#" class="las la-user-plus" data-text="Nouveau"></a></li>
                 <li><a href="#" class="las la-people-carry" data-text="Aide"></a></li>
-                <li><a href="#" class="las la-id-card" data-text="Carte"></a></li>
+                <li><a href="{{ absolute_url(path('badge_recherche')) }}" class="las la-id-card" data-text="Carte"></a></li>
             </ul>
         </div>
         <div class="footer d-block d-sm-none">
@@ -58,7 +58,7 @@
                 <li><a href="#" onclick="recherche()" class="las la-user-check" data-text="Ancien"></a></li>
                 <li><a href="#" class="las la-user-plus" data-text="Nouveau"></a></li>
                 <li><a href="#" class="las la-people-carry" data-text="Aide"></a></li>
-                <li><a href="#" class="las la-id-card" data-text="Carte"></a></li>
+                <li><a href="{{ absolute_url(path('badge_recherche')) }}" class="las la-id-card" data-text="Carte"></a></li>
             </ul>
         </div>
         {% block javascripts %}

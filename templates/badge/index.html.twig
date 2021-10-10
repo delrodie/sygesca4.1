@@ -1,20 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BadgeController!{% endblock %}
+{% block title %}{{ parent() }} Recherche du badge{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row" data-aos="zoom-in" data-aos-duration="3000">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="col-12">
+                    <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/delrodie/www/applications/ascci/sygesca4.1/src/Controller/BadgeController.php'|file_link(0) }}">src/Controller/BadgeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/delrodie/www/applications/ascci/sygesca4.1/templates/badge/index.html.twig'|file_link(0) }}">templates/badge/index.html.twig</a></code></li>
-    </ul>
-</div>
+            {% endfor %}
+        {% endfor %}
+        <div class="col">
+            <h4>Carte provisoire</h4>
+            <form action="{{ absolute_url(path('badge_requete')) }}" method="post">
+                <div class="row form-group text-center">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="matricule" placeholder="Matricule" aria-label="Matricule" aria-describedby="button-addon2" autocomplete="off" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" id="button-addon2">
+                                    <i class="las la-search"></i> Rechercher
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.alert').alert()
+    </script>
 {% endblock %}
