@@ -115,7 +115,7 @@
 							if ($donnee->code === '00'){
 								
 								// Verification du statut de l'adherant selon sa fonction
-								$status = $this->_adhesion->statutAdherant($adherant);
+								$status = $this->_adhesion->statutAdherant($adherant); dd($status);
 								
 								// SI le membre existe alors faire une mise a jour
 								// sinon crée le nouveau membre
@@ -181,7 +181,7 @@
 			$scout->setBranche($statut['branche']);
 			$scout->setFonction($adherant->getFonction());
 			$scout->setGroupe($adherant->getGroupe());
-			$scout->setStatut($statut['statut_scout']->getId()); dd($scout);
+			$scout->setStatut($statut['statut_scout']->getId()); //dd($scout);
 			
 			$this->em->persist($scout);
 			$this->em->flush();
