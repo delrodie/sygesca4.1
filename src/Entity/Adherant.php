@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Sygesca3\Groupe;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

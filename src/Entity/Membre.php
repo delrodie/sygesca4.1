@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Sygesca3\Groupe;
+use App\Entity\Sygesca3\Statut;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
