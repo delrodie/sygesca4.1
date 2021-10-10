@@ -3,6 +3,7 @@
 	namespace App\Utilities;
 	
 	use App\Entity\Adherant;
+	use App\Entity\Anomalie;
 	use App\Entity\Sygesca3\Fonctions;
 	use App\Entity\Sygesca3\Groupe;
 	use App\Entity\Sygesca3\Statut;
@@ -173,6 +174,27 @@
 			];
 			
 			return $data;
+		}
+		
+		public function errorCinetpay($donne)
+		{
+			$adherant = $this->em->getRepository(Anomalie::class)->findOneBy(['adherant'=>$donne->data->metadata]);
+			if ($adherant){
+				$anomalie = new Anomalie();
+				$anomalie->setCode($donne->code);
+				$anomalie->setMessage($donne->message);
+				$anomalie->setMontant($donne->data->amount);
+				$anomalie->setStatus($donne->data->status);
+				$anomalie->setDescription($donne->data->description);
+				$anomalie->setAdherant($adherant);
+				$anomalie->setPaiementDate($donne->data->payment_date);
+				$anomalie->setResponseId($donne->api_response_id);
+				
+				$this->em->persist($anomalie);
+				$this->em->flush();
+			}
+			
+			return true;
 		}
 		
 		/**

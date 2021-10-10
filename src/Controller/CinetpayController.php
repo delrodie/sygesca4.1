@@ -111,7 +111,7 @@
 							// Execution de la requete
 							$result =  file_get_contents('https://api-checkout.cinetpay.com/v2/payment/check', false, $context);
 							
-							$donnee = json_decode($result); dd($donnee);
+							$donnee = json_decode($result); //dd($donnee);
 							if ($donnee->code === '00'){
 								
 								// Verification du statut de l'adherant selon sa fonction
@@ -129,6 +129,8 @@
 								$adherant->setCarte($membre['scout']->getCarte());
 								
 								$this->em->flush();
+							}else{
+								$this->_adhesion->errorCinetpay($donnee);
 							}
 						}
 					}
