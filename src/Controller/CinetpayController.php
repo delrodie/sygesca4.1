@@ -122,6 +122,13 @@
 								$membre = $this->membre($adherant,$status);
 								$this->_scout->carte($membre['scout'], $membre['region_code'], $membre['id']);
 								$this->_cotisation->save($membre['scout'], $status['fonction'], $donnee->data->amount);
+								
+								$adherant->setStatuspaiement('VALID');
+								$adherant->setResult('00');
+								$adherant->setCotisation($membre['scout']->getCotisation());
+								$adherant->setCotisation($membre['scout']->getCarte());
+								
+								$this->em->flush();
 							}
 						}
 					}
