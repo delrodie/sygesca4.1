@@ -2,13 +2,14 @@
 
 namespace App\Entity\Sygesca3;
 
+use App\Repository\StatutRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Statut
  *
  * @ORM\Table(name="statut")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=StatutRepository::class)
  */
 class Statut
 {

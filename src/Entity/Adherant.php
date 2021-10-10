@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\AdherantRepository;
 use App\Entity\Sygesca3\Groupe;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Adherant
  *
  * @ORM\Table(name="Adherant", indexes={@ORM\Index(name="IDX_6EAC3AEA7A45358C", columns={"groupe_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=AdherantRepository::class)
  */
 class Adherant
 {
@@ -171,6 +172,21 @@ class Adherant
      * })
      */
     private $groupe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $responseId;
 
     public function getId(): ?int
     {
@@ -425,6 +441,42 @@ class Adherant
     public function setGroupe(?Groupe $groupe): self
     {
         $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getResponseId(): ?string
+    {
+        return $this->responseId;
+    }
+
+    public function setResponseId(?string $responseId): self
+    {
+        $this->responseId = $responseId;
 
         return $this;
     }

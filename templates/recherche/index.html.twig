@@ -7,35 +7,52 @@
 	<div class="row formulaire" data-aos="zoom-in"data-aos-duration="3000">
 		<div class="col">
 			<h4>Formulaire d'adhésion</h4>
-			<form action="#" method="post" id="adhesion" name="adhesion">
+			<form action="{{ absolute_url(path('paiement_ancien')) }}" method="post" id="adhesion" name="adhesion">
 				<div class="row form-group">
 					<div class="col-md-4 mt-3">
 						<label for="scoute">Matricule</label>
-						<input type="text" class="form-control" value="{{ scout.matricule }}" readonly>
+						<input type="text" class="form-control" name="scout_matricule" value="{{ scout.matricule }}" readonly>
 					</div>
 					<div class="col-md-4 mt-3">
 						<label for="">Nom</label>
-						<input type="text" class="form-control" value="{{ scout.nom }}" readonly>
+						<input type="text" class="form-control" name="scout_nom" value="{{ scout.nom }}" readonly>
 					</div>
 					<div class="col-md-4 mt-3">
 						<label for="">Prenoms</label>
-						<input type="text" class="form-control" value="{{ scout.prenoms }}" readonly>
+						<input type="text" class="form-control" name="scout_prenoms" value="{{ scout.prenoms }}" readonly>
 					</div>
 					<div class="col-md-3 mt-3">
 						<label for="">Date de naissance</label>
-						<input type="text" class="form-control" value="{{ scout.datenaiss }}" readonly>
+						<input type="text" class="form-control" name="scout_date_naissance" value="{{ scout.datenaiss }}" readonly>
 					</div>
 					<div class="col-md-5 mt-3">
 						<label for="">Lieu de naissance</label>
-						<input type="text" class="form-control" value="{{ scout.lieunaiss}}" readonly>
+						<input type="text" class="form-control" name="scout_lieu_naissance" value="{{ scout.lieunaiss}}" readonly>
 					</div>
 					<div class="col-md-4 mt-3">
 						<label for="">Sexe</label>
-						<input type="text" class="form-control" value="{{ scout.sexe }}" readonly>
+						<input type="text" class="form-control" name="scout_sexe" value="{{ scout.sexe }}" readonly>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">Contact personnel</label>
+						<input type="text" class="form-control" name="scout_contact" autocomplete="off" minlength="10" maxlength="10" required>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">En cas d'urgence</label>
+						<select name="scout_urgence" id="scout_urgence" class="form-control" autocomplete="off" required>
+							<option value="">-</option>
+							<option value="MERE">MERE</option>
+							<option value="PERE">PERE</option>
+							<option value="AUTRE">AUTRE</option>
+						</select>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">Contact urgence</label>
+						<input type="text" class="form-control" name="scout_contact_urgence" autocomplete="off" minlength="10" maxlength="10"  required>
 					</div>
 					<div class="col-md-3 mt-3">
 						<label for="">Carte scoute</label>
-						<input type="text" class="form-control" value="{{ scout.carte }}" readonly>
+						<input type="text" class="form-control" name="scout_carte" value="{{ scout.carte }}" readonly>
 					</div>
 					<div class="col-md-6 mt-3">
 						<label for="scout_fonction">Fonction</label>
@@ -53,7 +70,7 @@
 					</div>
 					<div class="col-md-3 mt-3">
 						<label for="">Region</label>
-						<select name="scout_region" id="scout_region" class="form-control">
+						<select name="scout_region" id="scout_region" class="form-control" required>
 							<option value="">-- Selectionnez --</option>
 							{% for region in regions %}
 								<option value="{{ region.id }}">{{ region.nom }}</option>
@@ -80,8 +97,8 @@
 				</div>
 				<div class="row text-center bouton-submit" data-aos="fade-up"data-aos-duration="1500">
 					<div class="col mt-5">
-
-						<button class="btn btn-primary">
+						<input type="hidden" name="scout_id" value="{{ scout.id }}">
+						<button class="btn btn-primary valider">
 							<i class="las la-check-circle"></i>
 							Valider
 						</button>
@@ -124,7 +141,7 @@
                         );
                     })
                     regionList();
-                }else if(selectedFonction == 26 || selectedFonction == 27 || selectedFonction == 30){
+                }else if(selectedFonction == 26 || selectedFonction == 27 || selectedFonction == 30 || selectedFonction == 36){
                     gestionEquipeNationale()
                 }
                 else{
@@ -226,9 +243,74 @@
                 )
             }
 
-            function gestionEquipeRegionale() {
-                $('#scout_region').empty(); $('#scout_district').empty(); $('#scout_groupe').empty();
-            }
+            // Paiement de l'inscription
+			$('#adhesion').submit(function (event) {
+                let button = document.querySelector('.valider')
+                button.append('Traitement...')
+				button.disabled = true;
+				event.preventDefault();
+				var post_url = $(this).attr("action");
+                var request_method = $(this).attr('method')
+				var form_data = $(this).serialize()
+				$.ajax({
+                    url: post_url,
+                    type: request_method,
+                    data: form_data,
+                    dataType: 'json',
+				}).done(function (response) {
+					console.log(response)
+					var adherant = response.id
+					if (response.code == 1){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Vous êtes déjà inscrit',
+                            text:  "Si vous pensez que c'est une erreur, veuillez donc contacter le bureau national.",
+							confirmButtonText: 'OK'
+                        }).then((result) =>{
+                            if (result.isConfirmed){
+                                window.location = "{{ absolute_url(path('app_home')) }}";
+							}
+						})
+					}
+					$.ajax({
+						type: "POST",
+						url: "https://api-checkout.cinetpay.com/v2/payment",
+						dataType: 'json',
+						data: {
+                            "amount": response.montant,
+							"currency": "XOF",
+							"apikey": '18714242495c8ba3f4cf6068.77597603',
+							"site_id": 422630,
+							"transaction_id": response.transaction_id,
+							"description": response.description,
+							"return_url": '{{ absolute_url(path('app_home')) }}',
+							"notify_url": '{{ absolute_url(path('cinetpay_notify')) }}',
+							"customer_id": response.matricule,
+							"customer_name": response.nom,
+							"customer_surname": response.prenom,
+							"customer_city": response.region
+						}
+					}).done(function (result) {
+                        console.log(result)
+                        if (result.code == '201'){
+                            $.ajax({
+                                url: "{{ absolute_url(path('cinetpay_paiement')) }}",
+                                type: 'POST',
+                                dataType: 'json',
+                                data:{
+                                    'api_response_id': result.api_response_id,
+                                    'token': result.data.payment_token,
+                                    'url': result.data.payment_url,
+                                    'adherant': adherant
+                                }
+                            }).done(function (res) {
+                                console.log(res)
+                                window.location = res.url
+                            })
+                        }
+                    })
+                })
+            })
         })
 	</script>
 {% endblock %}

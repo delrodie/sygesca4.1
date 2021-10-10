@@ -59,14 +59,14 @@
 			$fonction_request = $request->get('fonction');
 			
 			if ($field === 'region'){//dd($fonction_request);
-				if ($fonction_request === '23' || $fonction_request === '24' || $fonction_request === '25')
+				if ($fonction_request === '23' || $fonction_request === '24' || $fonction_request === '25' || $fonction_request === '38')
 					$districts = $this->getDoctrine()->getRepository(District::class)->findByEquipeByRegion($value, 'EQUIPE REGIONALE');
 				else
 					$districts = $this->getDoctrine()->getRepository(District::class)->findBy(['region' => $value],['nom'=>"ASC"]);
 				
 				$data = $this->json($districts);
 			}elseif ($field === 'district'){
-				if ($fonction_request === '20' || $fonction_request === '21' || $fonction_request === '22')
+				if ($fonction_request === '20' || $fonction_request === '21' || $fonction_request === '22' || $fonction_request ==='34')
 					$groupes = $this->getDoctrine()->getRepository(Groupe::class)->findEquipeByDistrict($value, 'district');
 				else
 					$groupes = $this->getDoctrine()->getRepository(Groupe::class)->findBy(['district' => $value],['paroisse'=>"ASC"]);
