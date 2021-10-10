@@ -136,7 +136,7 @@
 			
 		}
 		
-		protected function membre(object $adherant, array  $statut)
+		protected function membre(object $adherant, $statut)
 		{
 			$scout = $this->getDoctrine()->getRepository(Membre::class)->findOneBy(['matricule'=>$adherant->getMatricule()]);
 			$region = $this->getDoctrine()->getRepository(Region::class)->findOneBy(['id' => $adherant->getGroupe()->getDistrict()->getRegion()]);
