@@ -157,7 +157,7 @@
 		public function statutAdherant($adherant): array
 		{
 			$fonction = $this->em->getRepository(Fonctions::class)->findOneBy(['libelle'=>$adherant->getFonction()]);
-			dd($fonction);
+			//dd($fonction);
 			if ($fonction->getId() < 5){
 				$branche = $fonction->getLibelle();
 				$scout_statut = $this->em->getRepository(Statut::class)->findOneBy(['id'=>1]);
@@ -171,7 +171,7 @@
 				'scout_statut' => $scout_statut,
 				'fonction' => $fonction
 			];
-			
+			dd($data);
 			return $data;
 		}
 		
