@@ -140,3 +140,6 @@
 .statistiques .card-title i{
   float: right;
 }
+.tableau-liste table{
+  font-size: 0.8rem;
+}

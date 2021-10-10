@@ -66,6 +66,55 @@
 			return $branche;
 		}
 		
+		/**
+		 * Liste des membres pour l'année
+		 *
+		 * @param null $region
+		 * @param null $district
+		 * @param null $groupe
+		 * @return array
+		 */
+		public function getListScout($annee, $region=null,$district=null,$groupe=null): array
+		{
+			$cotisations = $this->em->getRepository(Cotisation::class)->findList($annee, $region,$district,$groupe);
+			if (!$cotisations){
+				$lists = [];
+			}else{
+				$lists = []; $i=0;
+				foreach ($cotisations as $cotisation){
+					$lists[$i++]=[
+						'loop_index' => $i,
+						'region' => $cotisation->getMembre()->getGroupe()->getDistrict()->getRegion()->getNom(),
+						'region_slug' => $cotisation->getMembre()->getGroupe()->getDistrict()->getRegion()->getSlug(),
+						'district' => $cotisation->getMembre()->getGroupe()->getDistrict()->getNom(),
+						'district_slug' => $cotisation->getMembre()->getGroupe()->getDistrict()->getSlug(),
+						'groupe' => $cotisation->getMembre()->getGroupe()->getParoisse(),
+						'groupe_id' => $cotisation->getMembre()->getGroupe()->getId(),
+						'statut' => $cotisation->getMembre()->getStatut()->getLibelle(),
+						'matricule' => $cotisation->getMembre()->getMatricule(),
+						'carte' => $cotisation->getMembre()->getCarte(),
+						'identite_civile' => strtoupper($cotisation->getMembre()->getNom()).' '.ucwords($cotisation->getMembre()->getPrenoms()),
+						'nom' => $cotisation->getMembre()->getNom(),
+						'prenoms' => $cotisation->getMembre()->getPrenoms(),
+						'date_naissance' => $cotisation->getMembre()->getDateNaissance(),
+						'lieu_naissance' => $cotisation->getMembre()->getLieuNaissance(),
+						'sexe' => $cotisation->getMembre()->getSexe(),
+						'contact' => $cotisation->getMembre()->getContact(),
+						'urgence' => $cotisation->getMembre()->getUrgence(),
+						'contact_urgence' => $cotisation->getMembre()->getContactUrgence(),
+						'fonction' => $cotisation->getMembre()->getFonction(),
+						'montant' => $cotisation->getMontant(),
+						'montant_sans_frais' => $cotisation->getMontantSansFrais(),
+						'ristourne' => $cotisation->getRistourne(),
+						'telephone' => $cotisation->getTelephone(),
+						'created_at' => $cotisation->getCreatedAt()
+					];
+				}
+			}
+			
+			return $lists;
+		}
+		
 		
 		public function getFonctionByAge($date)
 		{
