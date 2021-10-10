@@ -181,7 +181,7 @@
 			$scout->setBranche($statut['branche']);
 			$scout->setFonction($adherant->getFonction());
 			$scout->setGroupe($adherant->getGroupe());
-			$scout->setStatut($statut['statut_scout']->getId());
+			$scout->setStatut($statut['statut_scout']->getId()); dd($scout);
 			
 			$this->em->persist($scout);
 			$this->em->flush();
