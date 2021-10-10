@@ -121,7 +121,7 @@
 								// sinon crée le nouveau membre
 								$membre = $this->membre($adherant,$status);
 								$this->_scout->carte($membre['scout'], $membre['region_code'], $membre['id']);
-								$this->_cotisation->save($membre['scout'], $status['fonction'], $donnee->data->amount, $donnee->data->phone_number);
+								$this->_cotisation->save($membre['scout'], $status['fonction'], $donnee->data->amount);
 							}
 						}
 					}
