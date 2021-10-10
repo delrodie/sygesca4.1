@@ -111,7 +111,7 @@
 							// Execution de la requete
 							$result =  file_get_contents('https://api-checkout.cinetpay.com/v2/payment/check', false, $context);
 							
-							$donnee = json_decode($result); dd($donnee);
+							$donnee = json_decode($result); //dd($donnee);
 							if ($donnee->code === '00'){
 								
 								// Verification du statut de l'adherant selon sa fonction
@@ -121,7 +121,7 @@
 								// sinon crée le nouveau membre
 								$membre = $this->membre($adherant,$status);
 								$this->_scout->carte($membre['scout'], $membre['region_code'], $membre['id']);
-								$this->_cotisation->save($membre['scout'], $status['fonction']);
+								$this->_cotisation->save($membre['scout'], $status['fonction'], $donnee->data->amount, $donnee->data->phone_number);
 							}
 						}
 					}
