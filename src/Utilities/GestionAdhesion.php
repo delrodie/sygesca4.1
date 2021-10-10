@@ -171,7 +171,7 @@
 				'scout_statut' => $scout_statut,
 				'fonction' => $fonction
 			];
-			dd($data);
+			
 			return $data;
 		}
 		
