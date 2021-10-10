@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adhésion 2021-2022{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h2>ASCCI</h2>
+            <h1 data-aos="flip-right"data-aos-duration="1500">Adhésion 2021-2022</h1>
+            <div class="row description">
+                <div class="col-md-9"  data-aos="flip-right" data-aos-duration="1500">
+                    <p>
+                        L'Association des Scouts Catholiques de Côte d'Ivoire, est une organisation à but non lucratif et apolitique qui œuvre dans le domaine de l'éducation des jeunes de 05 à 21 ans depuis 1937. De par sa méthode, elle assure un véritable lien social et garanti un environnement de prise en charge des problèmes de l'heure.
+                    </p>
+                </div>
+                <div class="col-md-3 text-center" data-aos="zoom-in" data-aos-easing="linear"
+                     data-aos-duration="1500">
+                    <img src="{{ absolute_url(asset('assets/images/ascci.png')) }}" alt="Logo ASCCI" class="img-fluid">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col bouton">
+                    <a href="#" onclick="recherche()" class="btn btn-success btn-lg" data-aos="fade-right" data-aos-duration="1500">
+                        <i class="las la-user-check"></i>
+                        Ancien
+                    </a>
+                    <a href="#" class="btn btn-outline-danger btn-lg" data-aos="fade-left" data-aos-duration="3000">
+                                <i class="las la-user-plus"></i>
+                    Nouveau
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
