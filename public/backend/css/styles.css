@@ -143,3 +143,9 @@
 .tableau-liste table{
   font-size: 0.8rem;
 }
+.sygesca h5{
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: var(--gris);
+  font-weight: bold;
+}

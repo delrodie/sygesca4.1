@@ -1,0 +1,60 @@
+{% extends 'backend_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Gestion des utilisateurs{% endblock %}
+{% block entete %}Gestion des utilisateurs{% endblock %}
+{% block body %}
+    <div class="container-fluid px-4">
+
+        <div class="row my-5 sygesca">
+            {# read and display all flash messages #}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="col-12">
+                        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                          <strong>{{ message }}</strong>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-5">Liste des utilisateurs</h5>
+                        <table class="table table-responsive">
+                            <thead>
+                            <th>ID</th>
+                            <th>REGION</th>
+                            <th>UTILISATEUR</th>
+                            </thead>
+                            <tbody>
+                            {% for compte in comptes %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ compte.region.nom }}</td>
+                                    <td>
+                                        <a href="{{ absolute_url(path('sygesca_admin_compte_edit',{'id':compte.id})) }}">{{ compte.user.username }}</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr class="text-center">
+                                    <td colspan="3"><em>Aucun compte</em></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-5">Enregistrement</h5>
+                        {{ include('sygesca_admin_compte/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -35,6 +35,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+	
+	
+	public function listeRegion(): \Doctrine\ORM\QueryBuilder
+	{
+		return $this->createQueryBuilder('u')
+			->where('u.roles LIKE :role')
+			->setParameter('role', '%ROLE_REGION%')
+			;
+	}
 
     // /**
     //  * @return User[] Returns an array of User objects

@@ -67,12 +67,14 @@
                     <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                         <i class="fas fa-map-marked-alt"></i> Groupes
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-user-lock"></i> Utilisateurs
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
-                        <i class="fas fa-user-cog"></i>  Compte
-                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-user-lock"></i> Utilisateurs
+                        </a>
+                        <a href="{{ absolute_url(path('sygesca_admin_compte_index')) }}" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
+                            <i class="fas fa-user-cog"></i>  Compte
+                        </a>
+                    {% endif %}
                 </div>
             </div>
 
