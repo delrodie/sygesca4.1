@@ -1,0 +1,347 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} Adhésion d'un nouveau scout{% endblock %}
+
+{% block body %}
+
+	<div class="row formulaire" data-aos="zoom-in"data-aos-duration="3000">
+		<div class="col">
+			<h4>Formulaire d'adhésion</h4>
+			<form action="{{ absolute_url(path('paiement_ancien')) }}" method="post" id="adhesion" name="adhesion">
+				<div class="row form-group">
+					
+					<div class="col-md-4 mt-3">
+						<label for="">Nom</label>
+						<input type="text" class="form-control" name="scout_nom" required autocomplete="off">
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">Prenoms</label>
+						<input type="text" class="form-control" name="scout_prenoms" required autocomplete="off">
+					</div>
+					<div class="col-md-3 mt-3">
+						<label for="">Date de naissance</label>
+						<input type="date" class="form-control dateNaissance" name="scout_date_naissance" onchange="datenaissance(this.value)" required autocomplete="off">
+					</div>
+					<div class="col-md-5 mt-3">
+						<label for="">Lieu de naissance</label>
+						<input type="text" class="form-control" name="scout_lieu_naissance" required autocomplete="off">
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">Sexe</label>
+						<select name="scout_sexe" id="sexe" class="form-control" required>
+							<option value="">-- Selectionne ton sexe --</option>
+							<option value="HOMME">HOMME</option>
+							<option value="FEMME">FEMME</option>
+						</select>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">Contact personnel</label>
+						<input type="text" class="form-control" name="scout_contact" autocomplete="off" minlength="10" maxlength="10" required>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">En cas d'urgence</label>
+						<select name="scout_urgence" id="scout_urgence" class="form-control" autocomplete="off" required>
+							<option value="">-</option>
+							<option value="MERE">MERE</option>
+							<option value="PERE">PERE</option>
+							<option value="AUTRE">AUTRE</option>
+						</select>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="">Contact urgence</label>
+						<input type="text" class="form-control" name="scout_contact_urgence" autocomplete="off" minlength="10" maxlength="10"  required>
+					</div>
+					<div class="col-md-6 mt-3">
+						<label for="scout_fonction">Fonction</label>
+						<select name="scout_fonction" id="scout_fonction" class="form-control" required>
+							<option value="">-- selectionnez --</option>
+							{% for fonction in fonctions %}
+								<option value="{{ fonction.id }}">{{ fonction.libelle }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-md-3 mt-3" id="divBranche">
+						<label for="">Branche</label>
+						<select name="scout_branche" id="scout_branche" class="form-control">
+						</select>
+					</div>
+					<div class="col-md-3 mt-3">
+						<label for="">Region</label>
+						<select name="scout_region" id="scout_region" class="form-control" required>
+							<option value="">-- Selectionnez --</option>
+							{% for region in regions %}
+								<option value="{{ region.id }}">{{ region.nom }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="scout_district">District</label>
+						<select name="scout_district" id="scout_district" class="form-control" required>
+							<option value="">-- selectionnez --</option>
+						</select>
+					</div>
+					<div class="col-md-4 mt-3">
+						<label for="scout_groupe">Groupe</label>
+						<select name="scout_groupe" id="scout_groupe" class="form-control" required>
+							<option value="">-- selectionnez --</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col text-center mt-3 montant">
+						<span style="color: red">Droit d'adhésion: <strong id="montant_adhesion"></strong></span>
+					</div>
+				</div>
+				<div class="row text-center bouton-submit" data-aos="fade-up"data-aos-duration="1500">
+					<div class="col mt-5">
+						<input type="hidden" name="scout_matricule" value="">
+						<input type="hidden" name="scout_id" value="00">
+						<button class="btn btn-primary valider">
+							<i class="las la-check-circle"></i>
+							Valider
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+{% block stylesheets %}
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	{{ parent() }}
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('.select2').select2();
+
+            // Gestion du select branche
+            $('#divBranche').fadeOut()
+            $('#divBranche').children('#scout_branche').prop('disabled', 'disabled')
+            $('#scout_fonction').change(function () {
+                let selectedFonction = $('#scout_fonction').val()
+                if (selectedFonction == 5 || selectedFonction == 6 || selectedFonction== 7){
+                    $('#divBranche').fadeIn();
+                    $('#divBranche').children('#scout_branche').prop('disabled', false)
+                    var branche = {
+                        "":"",
+                        "LOUVETAU":"LOUVETEAU",
+                        "ECLAIREUR":"ECLAIREUR",
+                        "CHEMINOT":"CHEMINOT",
+                        "ROUTIER":"ROUTIER"
+                    }
+                    $.each(branche, function (key, value) {
+                        $('#scout_branche').append($("<option></option>")
+                            .attr("value", key)
+                            .text(value)
+                        );
+                    })
+                    regionList();
+                }else if(selectedFonction == 26 || selectedFonction == 27 || selectedFonction == 30 || selectedFonction == 36){
+                    gestionEquipeNationale()
+                }
+                else{
+                    $('#divBranche').fadeOut()
+                    $('#divBranche').children('#scout_branche').prop('disabled','disabled')
+                    $('#adhesion_branche').children().remove()
+                    regionList();
+                }
+            })
+
+            // Gestion des fonction
+            $('#scout_fonction').on('change',function () {
+                let fonctionId = $(this).val()
+                $.get("{{ absolute_url(path('requete_ajax_formulaire')) }}", {field : "fonction", value: fonctionId})
+                    .done(function(data) {
+                        if(data) {
+                            $('#montant_adhesion').empty()
+                            $('#montant_adhesion').append(data+" FCFA")
+                        }
+                    })
+            })
+
+            // Gestion des district
+            $('#scout_region').on('change', function () {
+                let regionId = $(this).val()
+				let fonctionId = $('#scout_fonction').val()
+				//console.log(fonctionId)
+                $.get("{{ absolute_url(path('requete_ajax_formulaire')) }}", {field: "region", value: regionId, fonction: fonctionId})
+                    .done(function (data) {
+                        if (data){
+                            $('#scout_district').empty();
+                            $('#scout_district').append("<option value=''>-</option>")
+                            for (let i = 0; i < data.length; i++){
+                                const item = data[i]
+                                $('#scout_district').append(
+                                    "<option value="+item.id+">"+item.nom+"</option>"
+                                )
+                            }
+                        }
+                    })
+            })
+
+			$('#scout_date_naissance').on('change', function () {
+				let dateNaiss = $(this).val()
+				console.log(dateNaiss)
+				$.get("{{ absolute_url(path('requete_ajax_formulaire')) }}",{field: "dateNaissance", value: dateNaiss})
+				.done(function (data) {
+                    $('#scout_fonction').empty();
+                    $('#scout_fonction').append("<option value=''>-</option>")
+                    for (let i = 0; i < data.length; i++){
+                        const item = data[i]
+                        $('#scout_fonction').append(
+                            "<option value="+item.id+">"+item.libelle+"</option>"
+                        )
+                    }
+                })
+            })
+
+            // Gestion des groupes
+            $('#scout_district').on('change', function () {
+                let districtId = $(this).val()
+                let fonctionId = $('#scout_fonction').val()
+                $.get("{{ absolute_url(path('requete_ajax_formulaire')) }}", {field: "district",value: districtId, fonction: fonctionId})
+                    .done(function (data) {
+                        if (data){
+                            $('#scout_groupe').empty();
+                            $('#scout_groupe').append("<option value=''>-</option>")
+                            for (let i = 0; i < data.length; i++){
+                                const item = data[i]
+                                $('#scout_groupe').append(
+                                    "<option value="+item.id+">"+item.paroisse+"</option>"
+                                )
+                            }
+                        }
+                    })
+            })
+
+            /**
+             * Fonction diverses correspondantes à la selection de la fonction et des regions
+             */
+
+            function regionList() {
+                $('#scout_region').empty();
+                $('#scout_district').empty();
+                $('#scout_groupe').empty();
+                $.get("{{ absolute_url(path('requete_ajax_formulaire')) }}", {field: "regionIntialisation", value: null})
+                    .done(function (data) {
+                        if (data){
+                            $('#scout_region').empty();
+                            $('#scout_region').append("<option value=''>-</option>")
+                            for (let i = 0; i < data.length; i++){
+                                const item = data[i]
+                                $('#scout_region').append(
+                                    "<option value="+item.id+">"+item.nom+"</option>"
+                                )
+                            }
+                        }else{
+                            $('#scout_region').append(
+                                "<option value="+1+">EQUIPE </option>"
+                            )
+						}
+                    })
+            }
+
+            function gestionEquipeNationale() {
+                $('#scout_region').empty(); $('#scout_district').empty(); $('#scout_groupe').empty();
+                $('#scout_region').append(
+                    "<option value="+1+">EQUIPE NATIONALE</option>"
+                )
+                $('#scout_district').append(
+                    "<option value="+1+">EQUIPE NATIONALE</option>"
+                )
+                $('#scout_groupe').append(
+                    "<option value="+1+">EQUIPE NATIONALE</option>"
+                )
+            }
+
+            // Paiement de l'inscription
+			$('#adhesion').submit(function (event) {
+                let button = document.querySelector('.valider')
+                button.append('Traitement...')
+				button.disabled = true;
+				event.preventDefault();
+				var post_url = $(this).attr("action");
+                var request_method = $(this).attr('method')
+				var form_data = $(this).serialize()
+				$.ajax({
+                    url: post_url,
+                    type: request_method,
+                    data: form_data,
+                    dataType: 'json',
+				}).done(function (response) {
+					console.log(response)
+					var adherant = response.id
+					if (response.code == 1){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Vous êtes déjà inscrit',
+                            text:  "Si vous pensez que c'est une erreur, veuillez donc contacter le bureau national.",
+							confirmButtonText: 'OK'
+                        }).then((result) =>{
+                            if (result.isConfirmed){
+                                window.location = "{{ absolute_url(path('app_home')) }}";
+							}
+						})
+					}
+					$.ajax({
+						type: "POST",
+						url: "https://api-checkout.cinetpay.com/v2/payment",
+						dataType: 'json',
+						data: {
+                            "amount": response.montant,
+							"currency": "XOF",
+							"apikey": '18714242495c8ba3f4cf6068.77597603',
+							"site_id": 422630,
+							"transaction_id": response.transaction_id,
+							"description": response.description,
+							"return_url": '{{ absolute_url(path('badge_recherche')) }}',
+							"notify_url": '{{ absolute_url(path('cinetpay_notify')) }}',
+							"customer_id": response.matricule,
+							"customer_name": response.nom,
+							"customer_surname": response.prenom,
+							"customer_city": response.region
+						}
+					}).done(function (result) {
+                        console.log(result)
+                        if (result.code == '201'){
+                            $.ajax({
+                                url: "{{ absolute_url(path('cinetpay_paiement')) }}",
+                                type: 'POST',
+                                dataType: 'json',
+                                data:{
+                                    'api_response_id': result.api_response_id,
+                                    'token': result.data.payment_token,
+                                    'url': result.data.payment_url,
+                                    'adherant': adherant
+                                }
+                            }).done(function (res) {
+                                console.log(res)
+                                window.location = res.url
+                            })
+                        }
+                    })
+                })
+            })
+        })
+	</script>
+	<script>
+		function datenaissance(val) {
+            //let dateNaiss = $(this).val()
+            console.log(val)
+            $.get("{{ absolute_url(path('requete_ajax_formulaire')) }}",{field: "dateNaissance", value: val})
+                .done(function (data) {
+                    $('#scout_fonction').empty();
+                    $('#scout_fonction').append("<option value=''>-</option>")
+                    for (let i = 0; i < data.length; i++){
+                        const item = data[i]
+                        $('#scout_fonction').append(
+                            "<option value="+item.id+">"+item.libelle+"</option>"
+                        )
+                    }
+                })
+        }
+	</script>
+{% endblock %}

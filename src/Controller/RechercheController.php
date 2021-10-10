@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sygesca3\District;
+use App\Entity\Sygesca3\Fonctions;
 use App\Entity\Sygesca3\Region;
 use App\Entity\Sygesca3\Scout;
 use App\Utilities\GestionScout;
@@ -21,6 +22,17 @@ class RechercheController extends AbstractController
 	public function __construct(GestionScout $_scout)
 	{
 		$this->_scout = $_scout;
+	}
+	
+	/**
+	 * @Route("/", name="nouveau_scout")
+	 */
+	public function nouveau()
+	{
+		return $this->render('recherche/nouveau.html.twig',[
+			'regions' => $this->getDoctrine()->getRepository(Region::class)->findAll(),
+			'fonctions' => $this->getDoctrine()->getRepository(Fonctions::class)->findAll()
+		]);
 	}
 	
     /**

@@ -8,6 +8,7 @@
 	use App\Entity\Sygesca3\Region;
 	use App\Entity\Sygesca3\Scout;
 	use App\Utilities\GestionAdhesion;
+	use App\Utilities\GestionScout;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\Routing\Annotation\Route;
@@ -22,10 +23,12 @@
 	class AjaxController extends AbstractController
 	{
 		private $_adhesion;
+		private $_scout;
 		
-		public function __construct(GestionAdhesion $_adhesion)
+		public function __construct(GestionAdhesion $_adhesion, GestionScout $_scout)
 		{
 			$this->_adhesion = $_adhesion;
+			$this->_scout = $_scout;
 		}
 		
 		/**
@@ -79,6 +82,9 @@
 			}elseif ($field === 'regionIntialisation'){
 				$regions = $this->getDoctrine()->getRepository(Region::class)->findAll();
 				$data = $this->json($regions);
+			}elseif ($field === 'dateNaissance'){
+				$fonctions = $this->_scout->getFonctionByAge($value);
+				$data = $this->json($fonctions);
 			}
 			else{
 				$data = $this->json([]);
