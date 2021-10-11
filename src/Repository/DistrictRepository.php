@@ -39,4 +39,16 @@
 				->getQuery()->getResult()
 				;
 		}
+		
+		public function findList()
+		{
+			return $this
+				->createQueryBuilder('d')
+				->addSelect('r')
+				->leftJoin('d.region', 'r')
+				->orderBy('r.id', 'ASC')
+				->addOrderBy('d.nom', 'ASC')
+				->getQuery()->getResult()
+				;
+		}
 	}
