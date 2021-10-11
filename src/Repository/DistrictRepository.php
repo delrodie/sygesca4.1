@@ -19,6 +19,11 @@
 			parent::__construct($registry, District::class);
 		}
 		
+		public function liste()
+		{
+			return $this->createQueryBuilder('d')->orderBy('d.nom', 'ASC');
+		}
+		
 		/**
 		 * Recherche du district par l'equipe
 		 *

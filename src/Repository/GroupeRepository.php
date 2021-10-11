@@ -39,4 +39,22 @@
 				->getQuery()->getResult()
 				;
 		}
+		
+		/**
+		 * @return int|mixed|string
+		 */
+		public function findList()
+		{
+			return $this
+				->createQueryBuilder('g')
+				->addSelect('d')
+				->addSelect('r')
+				->leftJoin('g.district', 'd')
+				->leftJoin('d.region', 'r')
+				->orderBy('r.id', "ASC")
+				->addOrderBy('d.nom', 'ASC')
+				->addOrderBy('g.paroisse', 'ASC')
+				->getQuery()->getResult()
+				;
+		}
 	}

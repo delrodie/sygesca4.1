@@ -5,6 +5,7 @@ namespace App\Controller\Backend;
 use App\Entity\Sygesca3\District;
 use App\Form\Sygesca3\DistrictType;
 use App\Repository\DistrictRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,9 @@ class SygescaDistrictController extends AbstractController
 	    $form->handleRequest($request);
 	
 	    if ($form->isSubmitted() && $form->isValid()) {
+			$slugify = new Slugify();
+			$slug = $slugify->slugify($district->getNom());
+			$district->setSlug($slug);
 		    $entityManager->persist($district);
 		    $entityManager->flush();
 		
@@ -80,6 +84,10 @@ class SygescaDistrictController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+	        $slugify = new Slugify();
+	        $slug = $slugify->slugify($district->getNom());
+	        $district->setSlug($slug);
+			
             $entityManager->flush();
 
             return $this->redirectToRoute('sygesca_district_index', [], Response::HTTP_SEE_OTHER);

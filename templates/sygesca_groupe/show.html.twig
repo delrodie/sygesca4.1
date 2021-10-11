@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groupe{% endblock %}
+
+{% block body %}
+    <h1>Groupe</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ groupe.id }}</td>
+            </tr>
+            <tr>
+                <th>Paroisse</th>
+                <td>{{ groupe.paroisse }}</td>
+            </tr>
+            <tr>
+                <th>Localite</th>
+                <td>{{ groupe.localite }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ groupe.slug }}</td>
+            </tr>
+            <tr>
+                <th>PubliePar</th>
+                <td>{{ groupe.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>ModifiePar</th>
+                <td>{{ groupe.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>PublieLe</th>
+                <td>{{ groupe.publieLe ? groupe.publieLe|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifieLe</th>
+                <td>{{ groupe.modifieLe ? groupe.modifieLe|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sygesca_groupe_index') }}">back to list</a>
+
+    <a href="{{ path('sygesca_groupe_edit', {'id': groupe.id}) }}">edit</a>
+
+    {{ include('sygesca_groupe/_delete_form.html.twig') }}
+{% endblock %}

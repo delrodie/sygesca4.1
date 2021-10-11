@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Groupe{% endblock %}
+
+{% block body %}
+    <h1>Create new Groupe</h1>
+
+    {{ include('sygesca_groupe/_form.html.twig') }}
+
+    <a href="{{ path('sygesca_groupe_index') }}">back to list</a>
+{% endblock %}
