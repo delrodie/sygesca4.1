@@ -115,6 +115,34 @@
 			return $lists;
 		}
 		
+		/**
+		 * @param $annee
+		 * @param null $region
+		 * @param null $district
+		 * @param null $groupe
+		 * @return array|int[]
+		 */
+		public function getFinance($annee, $region=null, $district=null, $groupe=null): array
+		{
+			$cotisations = $this->em->getRepository(Cotisation::class)->findList($annee, $region,$district,$groupe);
+			
+			$montant=0; $frais=0; $ristourne=0;
+			
+			foreach ($cotisations as $cotisation){
+				$montant = $montant + (int) $cotisation->getMontantSansFrais();
+				$ristourne = $ristourne + (int) $cotisation->getRistourne();
+				$frais = $frais + ((int) $cotisation->getMontant() - (int) $cotisation->getMontantSansFrais());
+			}
+			
+			$lists = [
+				'montant' => $montant,
+				'ristourne' => $ristourne,
+				'frais' => $frais
+			];
+			
+			return $lists;
+		}
+		
 		
 		public function getFonctionByAge($date)
 		{
