@@ -47,9 +47,13 @@
                 <div class="list-group list-group-flush my-3">
                     <a href="{{ path('sygesca_dashboard') }}" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                                 class="fas fa-tachometer-alt me-2"></i>Statistiques
-                    </a><a href="#" class="list-group-item list-group-item-action bg-transparent second-text active"><i
-                                class="fas fa-tachometer-alt me-2"></i>Télémetrie
                     </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active"><i
+                                    class="fas fa-tachometer-alt me-2"></i>Télémetrie
+                        </a>
+                    {% endif %}
+
                     <a href="{{ absolute_url(path('sygesca_gestion_liste'))}}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                         <i class="fas fa-users-cog"></i> Scouts
                     </a>
