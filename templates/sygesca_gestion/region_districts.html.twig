@@ -1,7 +1,7 @@
 {% extends 'backend_layout.html.twig' %}
 
-{% block title %}{{ parent() }} Liste des membres de la région {{ region.nom }}{% endblock %}
-{% block entete %}Liste des membres de la région {{ region.nom }}{% endblock %}
+{% block title %}{{ parent() }} Liste des membres du district {{ district.nom }}{% endblock %}
+{% block entete %}Liste des membres du district {{ district.nom }}{% endblock %}
 
 {% block body %}
     <div class="container-fluid px-4">
@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 offset-md-3 mb-5">
-                            <form action="{{ path('sygesca_gestion_liste') }}" onchange="this.submit()" id="form_region">
+                            <form action="{{ path('sygesca_gestion_liste') }}" onchange="this.submit()" id="form_region" method="post">
                                 <label for="search_region">District</label>
                                 <select name="district" id="search_region" class="form-control select2">
                                     <option value="">-- Selectionnez le district --</option>
