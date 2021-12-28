@@ -1,0 +1,41 @@
+{% extends 'backend_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Statut inscription {{ adherant.nom }}{% endblock %}
+{% block entete %}Inscription de {{ adherant.nom }}{% endblock %}
+
+{% block body %}
+	<div class="container-fluid px-4">
+
+		<div class="row my-5">
+			<div class="col-md-6 offset-md-3">
+				<div class="card">
+					<div class="card-header text-center"><strong>{{ data.message|trans }}</strong></div>
+					<div class="card-body">
+						<div class="card-text">
+							<div><strong>Adherant :</strong> {{ adherant.nom }} {{ adherant.prenoms|title }}</div>
+							<div><strong>Naissance :</strong> {{ adherant.datenaissance }} à {{ adherant.lieunaissance }}</div>
+							<div><strong>Matricule :</strong> {{ adherant.matricule }} </div>
+							<div><strong>Fonction :</strong> {{ adherant.fonction }} </div>
+							<div><strong>Region :</strong> {{ adherant.groupe.district.region.nom }} </div>
+							<div><strong>District :</strong> {{ adherant.groupe.district.nom }} </div>
+							<div><strong>Groupe :</strong> {{ adherant.groupe.paroisse}} </div>
+							<div><strong>Date inscription :</strong> {{ adherant.createdat|date('d-m-Y H:i:s')}} </div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="row text-center">
+							<div class="col d-grid"><a href="{{ path('sygesca_adherant_index') }}" class="btn btn-outline-secondary">Retour</a></div>
+							{% if data.code == '201' or data.code == '00' %}
+								<div class="col d-grid"><a href="{{ path('cinetpay_notify',{'?cpm_trans_id=': adherant.idTransaction}) }}" class="btn btn-success">Valider</a></div>
+							{% else %}
+								<div class="col d-grid"><a href="#" class="btn btn-danger">Réinitialiser</a></div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}

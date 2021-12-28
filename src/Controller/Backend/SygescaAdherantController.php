@@ -2,6 +2,7 @@
 
 namespace App\Controller\Backend;
 
+use App\Entity\Adherant;
 use App\Entity\Sygesca3\Region;
 use App\Utilities\GestionCotisation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,5 +57,68 @@ class SygescaAdherantController extends AbstractController
 		$scouts = $this->_cotisation->listeAdherants($annee);
 		
 		return $this->json($scouts);
+	}
+	
+	/**
+	 * @Route("/show/{idTransaction}", name="sygesca_adherant_show", methods={"GET","POST"})
+	 */
+	public function show($idTransaction)
+	{
+		$adherant = $this->getDoctrine()->getRepository(Adherant::class)->findOneBy(['idtransaction'=>$idTransaction]);
+		//dd($adherant);
+		if ($adherant){
+			if ($adherant->getStatuspaiement() === 'VALID'){
+				$data = [
+					'code' => '101',
+					'message' => "Cet adherant a déjà été validé dans le système",
+					'data' => [],
+					'api_response_id' => '',
+				];
+			}else{
+				$data = $this->apiCinetpay($adherant);
+			}
+		
+		}else{
+			$data = [
+				'code' => '100',
+				'message' => "Cet id de transaction n'existe pas. Merci de contacter les administrateurs",
+				'data' => [],
+				'api_response_id' => '',
+			];
+		}
+		
+		return $this->render('sygesca_adherant/show.html.twig',[
+			'data' => $data,
+			'adherant' => $adherant
+		]);
+	}
+	
+	protected function apiCinetpay($adherant)
+	{
+		$parametres = [
+			'apikey' => '18714242495c8ba3f4cf6068.77597603',
+			'site_id' => 422630,
+			'token' => $adherant->getToken()
+		];
+		// Creation d'option
+		
+		$options = [
+			'http' => [
+				'method' =>"POST",
+				'header' => "Content-Type: application/json\r\n",
+				//'ignore_errors' => true,
+				'content' => json_encode($parametres)
+			]
+		]; //dd($options);
+		
+		// Creation du context
+		$context = stream_context_create($options); //dd($context);
+		
+		// Execution de la requete
+		$result =  file_get_contents('https://api-checkout.cinetpay.com/v2/payment/check', false, $context);
+		
+		$donnee = json_decode($result);
+		
+		return $donnee;
 	}
 }

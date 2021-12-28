@@ -1,7 +1,7 @@
 {% extends 'backend_layout.html.twig' %}
 
 {% block title %}{{ parent() }} Liste des membres 2021-2022{% endblock %}
-{% block entete %}Liste des membres 2021-2022{% endblock %}
+{% block entete %}Liste des adherants 2021-2022{% endblock %}
 
 {% block body %}
 	<div class="container-fluid px-4">
@@ -21,6 +21,7 @@
 								</select>
 							</form>
 						</div>
+
 					</div>
 					<div class="row">
 						<div class="col mt-5 tableau-liste">
@@ -36,6 +37,7 @@
 									<th>MATRICULE</th>
 									<th>DATE</th>
 									<th>ID TRANSACTION</th>
+									<th>ID</th>
 								</tr>
 								</thead>
 							</table>
@@ -80,6 +82,7 @@
                     { "data": "matricule" },
                     { "data": "created_at" },
                     { "data": "transaction_id" },
+                    { "data": "show_url" },
                 ],
                 dom: 'Bfrtip',
                 buttons: [

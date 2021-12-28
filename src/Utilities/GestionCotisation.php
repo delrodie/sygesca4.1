@@ -119,7 +119,8 @@
 					'url' => $adherant->getUrl(),
 					'response_id' => $adherant->getResponseId(),
 					'created_at' => $adherant->getCreatedAt(),
-					'transaction_id' => $adherant->getIdTransaction()
+					'transaction_id' => $adherant->getIdTransaction(),
+					'show_url' => '<a href="show/'.$adherant->getIdTransaction().'" target="_blank">Test</a>'
 				];
 			}
 			
