@@ -59,4 +59,29 @@
 				->getQuery()->getResult()
 				;
 		}
+		
+		/**
+		 * @param $id
+		 * @return int|mixed|string
+		 */
+		public function findListNonValidProcessus($date)
+		{
+			return $this
+				->createQueryBuilder('a')
+				->addSelect('g')
+				->addSelect('d')
+				->addSelect('r')
+				->leftJoin('a.groupe', 'g')
+				->leftJoin('g.district', 'd')
+				->leftJoin('d.region', 'r')
+				->where('a.statuspaiement = :status')
+				->andWhere('a.createdat < :date')
+				->orderBy('a.createdat', 'DESC')
+				->setParameters([
+					'status' => 'UNKNOW',
+					'date' => $date
+				])
+				->getQuery()->getResult()
+				;
+		}
 	}
