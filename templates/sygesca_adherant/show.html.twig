@@ -26,7 +26,7 @@
 						<div class="row text-center">
 							<div class="col d-grid"><a href="{{ path('sygesca_adherant_index') }}" class="btn btn-outline-secondary">Retour</a></div>
 							{% if data.code == '201' or data.code == '00' %}
-								<div class="col d-grid"><a href="{{ path('cinetpay_notify',{'?cpm_trans_id': adherant.idTransaction}) }}" class="btn btn-success">Valider</a></div>
+								<div class="col d-grid"><a href="{{ path('cinetpay_notify',{'cpm_trans_id': adherant.idTransaction}) }}" class="btn btn-success">Valider</a></div>
 							{% else %}
 								<div class="col d-grid"><a href="#" class="btn btn-danger">Réinitialiser</a></div>
 							{% endif %}
