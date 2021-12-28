@@ -79,8 +79,11 @@
                         <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                             <i class="fas fa-user-lock"></i> Utilisateurs
                         </a>
-                        <a href="{{ absolute_url(path('sygesca_admin_compte_index')) }}" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
+                        <a href="{{ absolute_url(path('sygesca_admin_compte_index')) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                             <i class="fas fa-user-cog"></i>  Compte
+                        </a>
+                        <a href="{{ absolute_url(path('validation_automatique_index')) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                            <i class="fas fa-user-cog"></i>  Validation
                         </a>
                     {% endif %}
                 </div>
