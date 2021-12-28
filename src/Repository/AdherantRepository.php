@@ -54,6 +54,7 @@
 				->leftJoin('g.district', 'd')
 				->leftJoin('d.region', 'r')
 				->where('a.statuspaiement = :status')
+				->orderBy('a.createdat', 'DESC')
 				->setParameter('status', "UNKNOW")
 				->getQuery()->getResult()
 				;

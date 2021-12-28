@@ -120,7 +120,7 @@
 					'response_id' => $adherant->getResponseId(),
 					'created_at' => $adherant->getCreatedAt(),
 					'transaction_id' => $adherant->getIdTransaction(),
-					'show_url' => '<a href="show/'.$adherant->getIdTransaction().'" target="_blank">Test</a>'
+					'show_url' => '<a href="show/'.$adherant->getIdTransaction().'" target="_blank" title="Clique ici">'.$adherant->getIdTransaction().'</a>'
 				];
 			}
 			
