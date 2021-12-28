@@ -42,4 +42,20 @@
 				->getQuery()->getOneOrNullResult()
 				;
 		}
+		
+		public function findListNonValid($region=null)
+		{
+			return $this
+				->createQueryBuilder('a')
+				->addSelect('g')
+				->addSelect('d')
+				->addSelect('r')
+				->leftJoin('a.groupe', 'g')
+				->leftJoin('g.district', 'd')
+				->leftJoin('d.region', 'r')
+				->where('a.statuspaiement = :status')
+				->setParameter('status', "UNKNOW")
+				->getQuery()->getResult()
+				;
+		}
 	}

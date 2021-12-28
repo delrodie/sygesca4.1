@@ -1,20 +1,95 @@
-{% extends 'base.html.twig' %}
+{% extends 'backend_layout.html.twig' %}
 
-{% block title %}Hello SygescaAdherantController!{% endblock %}
+{% block title %}{{ parent() }} Liste des membres 2021-2022{% endblock %}
+{% block entete %}Liste des membres 2021-2022{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="container-fluid px-4">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		<div class="row my-5">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-6 offset-md-3 mb-5">
+							<form action="" onchange="this.submit()" id="form_region">
+								<label for="search_region">Region</label>
+								<select name="region" id="search_region" class="form-control select2">
+									<option value="">-- Selectionnez la région --</option>
+									{% for region in regions %}
+										<option value="{{ region.id }}">{{ region.nom }}</option>
+									{% endfor %}
+								</select>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col mt-5 tableau-liste">
+							<table id="liste" class="compact display" style="width: 100%;">
+								<thead>
+								<tr style="text-align:center;">
+									<th>ID</th>
+									<th>REGION</th>
+									<th>DISTRICT</th>
+									<th>NOM & PRENOMS</th>
+									<th>SEXE</th>
+									<th>FONCTION</th>
+									<th>MATRICULE</th>
+									<th>DATE</th>
+									<th>ID TRANSACTION</th>
+								</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/delrodie/www/applications/ascci/sygesca4.1/src/Controller/SygescaAdherantController.php'|file_link(0) }}">src/Controller/SygescaAdherantController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/delrodie/www/applications/ascci/sygesca4.1/templates/sygesca_adherant/index.html.twig'|file_link(0) }}">templates/sygesca_adherant/index.html.twig</a></code></li>
-    </ul>
-</div>
+		</div>
+
+	</div>
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+	<script>
+        $(document).ready(function() {
+
+            $('#liste').DataTable( {
+                "ajax": {
+                    url: '{{ absolute_url(path("sygesca_adherant_ajax")) }}',
+                    dataSrc: ''
+                },
+                "columns": [
+                    { "data": "loop_index" },
+                    { "data": "region" },
+                    { "data": "district" },
+                    { "data": "identite_civile" },
+                    { "data": "sexe" },
+                    { "data": "fonction" },
+                    { "data": "matricule" },
+                    { "data": "created_at" },
+                    { "data": "transaction_id" },
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/fr_fr.json'
+                },
+                responsive: true
+            } );
+        } );
+	</script>
 {% endblock %}

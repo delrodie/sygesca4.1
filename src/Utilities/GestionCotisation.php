@@ -2,6 +2,7 @@
 	
 	namespace App\Utilities;
 	
+	use App\Entity\Adherant;
 	use App\Entity\Cotisation;
 	use App\Entity\Sygesca3\District;
 	use App\Entity\Sygesca3\Region;
@@ -72,7 +73,7 @@
 			elseif($district)
 				$resultats=[];
 			else{
-				$resultats = $this->em->getRepository(Region::class)->findListActive();
+				$resultats = $this->em->getRepository(Region::class)->findAll();
 				foreach($resultats as $resultat){
 					$lists[$i++] = [
 						'nom' => $resultat->getNom(),
@@ -90,6 +91,39 @@
 			}
 			
 			return $lists;
+		}
+		
+		public function listeAdherants($annee, $region=null, $district=null)
+		{
+			$adherants = $this->em->getRepository(Adherant::class)->findListNonValid();
+			$list=[]; $i=0;
+			foreach ($adherants as $adherant){
+				$list[$i++]=[
+					'loop_index' => $i,
+					'region' => $adherant->getGroupe()->getDistrict()->getRegion()->getNom(),
+					'district' => $adherant->getGroupe()->getDistrict()->getNom(),
+					'groupe' => $adherant->getGroupe()->getParoisse(),
+					'matricule' => $adherant->getMatricule(),
+					'nom' => $adherant->getNom(),
+					'prenoms' => $adherant->getPrenoms(),
+					'identite_civile' => $adherant->getNom().' '.$adherant->getPrenoms(),
+					'date_naissance' => $adherant->getDateNaissance(),
+					'lieu_naissance' => $adherant->getLieuNaissance(),
+					'sexe' => $adherant->getSexe(),
+					'contact' => $adherant->getContact(),
+					'carte' => $adherant->getCarte(),
+					'urgence' => $adherant->getContactUrgence(),
+					'fonction' => $adherant->getFonction(),
+					'branche' => $adherant->getBranche(),
+					'token' => $adherant->getToken(),
+					'url' => $adherant->getUrl(),
+					'response_id' => $adherant->getResponseId(),
+					'created_at' => $adherant->getCreatedAt(),
+					'transaction_id' => $adherant->getIdTransaction()
+				];
+			}
+			
+			return $list;
 		}
 		
 		/**
