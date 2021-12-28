@@ -37,7 +37,7 @@ class ValidationAutomatiqueController extends AbstractController
 		}else { //dd($session);
 			$adherants = $this->getDoctrine()->getRepository(Adherant::class)->findListNonValidProcessus($session);
 		}
-		dd($adherants);
+		//dd($adherants);
 		$query=[];$i=0;
 		foreach ($adherants as $adherant){
 			$this->_session->set('adherent', $adherant->getCreatedAt());
