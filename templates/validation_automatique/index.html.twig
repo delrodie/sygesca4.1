@@ -3,5 +3,20 @@
 {% block title %}Hello ValidationAutomatiqueController!{% endblock %}
 
 {% block body %}
-    {{ queries|length }}
+    <table class="table">
+        <thead>
+        <th>ID</th>
+        <th>ADHERANT</th>
+        <th>TRANSACTION</th>
+        <th>NOMBRE</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ validation.adherant }}</td>
+            <td>{{ validation.idTransaction }}</td>
+            <td>{{ validation.nombre }}</td>
+        </tr>
+        </tbody>
+    </table>
 {% endblock %}

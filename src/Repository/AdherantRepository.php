@@ -76,7 +76,7 @@
 		 * @param $id
 		 * @return int|mixed|string
 		 */
-		public function findListNonValidProcessus($date)
+		public function findListNonValidProcessus($validation)
 		{
 			return $this
 				->createQueryBuilder('a')
@@ -87,11 +87,11 @@
 				->leftJoin('g.district', 'd')
 				->leftJoin('d.region', 'r')
 				->where('a.statuspaiement = :status')
-				->andWhere('a.createdat < :date')
+				->andWhere('a.idtransaction < :validation')
 				->orderBy('a.createdat', 'DESC')
 				->setParameters([
 					'status' => 'UNKNOW',
-					'date' => $date
+					'validation' => $validation
 				])
 				->getQuery()->getResult()
 				;
