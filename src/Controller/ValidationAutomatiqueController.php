@@ -62,6 +62,7 @@ class ValidationAutomatiqueController extends AbstractController
 			}
 		}
 		$this->_session->clear();
+		dd($query);
         return $this->render('validation_automatique/index.html.twig', [
             'queries' => $query,
         ]);

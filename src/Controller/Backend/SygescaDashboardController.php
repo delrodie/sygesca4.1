@@ -3,6 +3,7 @@
 namespace App\Controller\Backend;
 
 use App\Entity\Compte;
+use App\Entity\Sygesca3\Region;
 use App\Utilities\GestionCotisation;
 use App\Utilities\GestionScout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

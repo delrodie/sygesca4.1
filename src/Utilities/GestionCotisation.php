@@ -73,7 +73,7 @@
 			elseif($district)
 				$resultats=[];
 			else{
-				$resultats = $this->em->getRepository(Region::class)->findAll();
+				$resultats = $this->em->getRepository(Region::class)->findListActive();
 				foreach($resultats as $resultat){
 					$lists[$i++] = [
 						'nom' => $resultat->getNom(),

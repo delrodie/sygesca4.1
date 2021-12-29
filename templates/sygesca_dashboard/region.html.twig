@@ -45,7 +45,11 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="row my-5">
+			<div class="co">
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
 		<div class="row my-5">
 			<div class="card">
 				<div class="card-body statistiques">
@@ -114,6 +118,7 @@
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
         function imprimer(divName) {
             console.log('impression')
@@ -123,5 +128,32 @@
             window.print();
             document.body.innerHTML = originalContents;
         }
+	</script>
+	<script>
+        const ctx = document.getElementById('myChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for region in regions %}'{{ region.nom }}',{% endfor %}],
+                datasets: [{
+                    label: '# Les membres',
+                    data: [{% for region in regions %}'{{ region.total }}',{% endfor %}],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 	</script>
 {% endblock %}
