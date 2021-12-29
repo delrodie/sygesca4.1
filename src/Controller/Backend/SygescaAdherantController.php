@@ -3,6 +3,7 @@
 namespace App\Controller\Backend;
 
 use App\Entity\Adherant;
+use App\Entity\Compte;
 use App\Entity\Sygesca3\Region;
 use App\Utilities\GestionCotisation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +33,19 @@ class SygescaAdherantController extends AbstractController
     public function index(Request $request): Response
     {
 	    $annee = $this->_cotisation->annee();
-	    //$scouts = ;
+	    $user = $this->getUser();
+	    $role = $user->getRoles();
+	    // Si l'utilisateur a pour role 0 User alors verifier si c'est un regional
+	    if ($role[0] === 'ROLE_USER'){
+		    if ($role[1] === 'ROLE_REGION'){
+			    $compte = $this->getDoctrine()->getRepository(Compte::class)->findOneBy(['user'=>$user->getId()]);
+							
+			    //return $this->redirectToRoute('sygesca_gestion_region',['regionSlug'=>$compte->getRegion()->getSlug()]);
+			    return $this->render('sygesca_adherant/region.html.twig',[
+				    'adherants' => $this->_cotisation->listeAdherants($annee, $compte->getRegion()->getId())
+			    ]);
+		    }
+	    }
 		
         return $this->render('sygesca_adherant/index.html.twig', [
 	        'regions' => $this->getDoctrine()->getRepository(Region::class)->findAll(),

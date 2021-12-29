@@ -44,8 +44,8 @@
 		}
 		
 		public function findListNonValid($region=null)
-		{
-			return $this
+		{ //dd($region);
+			$query = $this
 				->createQueryBuilder('a')
 				->addSelect('g')
 				->addSelect('d')
@@ -53,11 +53,23 @@
 				->leftJoin('a.groupe', 'g')
 				->leftJoin('g.district', 'd')
 				->leftJoin('d.region', 'r')
-				->where('a.statuspaiement = :status')
 				->orderBy('a.createdat', 'DESC')
-				->setParameter('status', "UNKNOW")
-				->getQuery()->getResult()
-				;
+				->where('a.statuspaiement = :status')
+				
+			;
+			if (!$region){
+				$query->setParameter('status', "UNKNOW");
+			}else{
+				$query->andWhere('r.id = :region')
+					->setParameters([
+						'status' => "UNKNOW",
+						'region' => $region
+					]);
+			}
+				
+			$qb = $query->getQuery()->getResult();
+			
+			return $qb;
 		}
 		
 		/**

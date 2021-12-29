@@ -94,8 +94,8 @@
 		}
 		
 		public function listeAdherants($annee, $region=null, $district=null)
-		{
-			$adherants = $this->em->getRepository(Adherant::class)->findListNonValid();
+		{ //dd($region);
+			$adherants = $this->em->getRepository(Adherant::class)->findListNonValid($region); //dd($adherants);
 			$list=[]; $i=0;
 			foreach ($adherants as $adherant){
 				$list[$i++]=[
