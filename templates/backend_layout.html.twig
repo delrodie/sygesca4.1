@@ -49,7 +49,7 @@
                                 class="fas fa-tachometer-alt me-2"></i>Statistiques
                     </a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active"><i
+                        <a href="{{ path('sygesca_telemetrie_index') }}" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                                     class="fas fa-tachometer-alt me-2"></i>Télémetrie
                         </a>
                     {% endif %}

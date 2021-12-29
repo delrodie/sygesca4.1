@@ -1,0 +1,139 @@
+{% extends 'backend_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Telemetrie{% endblock %}
+{% block entete %}Télémetrie{% endblock %}
+{% block body %}
+    <div class="container-fluid px-4">
+        <div class="row g-3 my-2 ">
+            <marquee behavior="" direction="">
+                {% for region in regions %}
+                    {{ region.nom }}: <span class="my-3" style="font-weight:bold; padding-right: 15px;"><strong>{{ region.total|number_format(0,'','.') }}</strong> </span>
+                    {{ loop.last ? '' : '-' }}
+                {% endfor %}
+            </marquee>
+        </div>
+        <div class="row my-5">
+            <div class="co">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="card">
+                <div class="card-body statistiques">
+                    <div class="card-title">Statistiques par Région <i class="fas fa-print" onclick="imprimer('impression')"></i></div>
+                    <h6 class="card-subtitle"></h6>
+                    <div id="impression">
+                        <table class="table mt-5 table-responsive">
+                            <thead>
+                            <tr>
+                                <th>REGION</th>
+                                <th>TOTAL</th>
+                                <th>JEUNE</th>
+                                <th>ADULTE</th>
+                                <th>HOMME</th>
+                                <th>FEMME</th>
+                                <th>LOUVETEAU</th>
+                                <th>ECLAIREUR</th>
+                                <th>CHEMINOT</th>
+                                <th>ROUTIER</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set tot=0 %}{% set jeune=0 %}{% set adulte=0 %}{% set homme=0 %}{% set femme=0 %}
+                            {% set louveteau=0 %}{% set eclaireur=0 %}{% set cheminot=0 %}{% set routier=0 %}
+                            {% for region in regions %}
+                                <tr>
+                                    <td>{{ region.nom }}</td>
+                                    <td style="text-align:center;">{{ region.total }}</td>
+                                    <td style="text-align:center;">{{ region.jeune }}</td>
+                                    <td style="text-align:center;">{{ region.adulte }}</td>
+                                    <td style="text-align:center;">{{ region.homme }}</td>
+                                    <td style="text-align:center;">{{ region.femme }}</td>
+                                    <td style="text-align:center;">{{ region.louveteau }}</td>
+                                    <td style="text-align:center;">{{ region.eclaireur }}</td>
+                                    <td style="text-align:center;">{{ region.cheminot }}</td>
+                                    <td style="text-align:center;">{{ region.routier }}</td>
+                                </tr>
+                                {% set tot= tot + region.total %}{% set jeune= jeune + region.jeune %}{% set adulte= adulte + region.adulte %}
+                                {% set homme= homme + region.homme %}{% set femme= femme + region.femme %} {% set louveteau= louveteau + region.louveteau %}
+                                {% set eclaireur= eclaireur + region.eclaireur %}{% set cheminot= cheminot + region.cheminot %}{% set routier= routier + region.routier %}
+                            {% endfor %}
+                            <tr><td colspan="10"></td></tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>TOTAUX</th>
+                                <th style="text-align:center;">{{ tot }}</th>
+                                <th style="text-align:center;">{{ jeune }}</th>
+                                <th style="text-align:center;">{{ adulte }}</th>
+                                <th style="text-align:center;">{{ homme }}</th>
+                                <th style="text-align:center;">{{ femme }}</th>
+                                <th style="text-align:center;">{{ louveteau }}</th>
+                                <th style="text-align:center;">{{ eclaireur }}</th>
+                                <th style="text-align:center;">{{ cheminot }}</th>
+                                <th style="text-align:center;">{{ routier }}</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function imprimer(divName) {
+            console.log('impression')
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+    <script>
+        const ctx = document.getElementById('myChart');
+        const myChart = new Chart(ctx, {
+            data: {
+                labels: [{% for region in regions %}'{{ region.nom }}',{% endfor %}],
+                datasets: [{
+                    type: 'line',
+                    label: '# objectifs',
+                    data: [{% for region in regions %}'{{ region.total }}',{% endfor %}],
+                    backgroundColor: 'rgba(217, 68, 3, 1)',
+                    borderColor: 'rgba(217,68,3, 1)',
+                    borderWidth: 1
+                },{
+                    type: 'bar',
+                    label: '# Les membres',
+                    data: [{% for region in regions %}'{{ region.total }}',{% endfor %}],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54,162,235, 1)',
+                    borderWidth: 1
+                } ]
+            },
+            options: {
+                animations: {
+                    tension: {
+                        duration: 1000,
+                        easing: 'linear',
+                        from: 1,
+                        to: 0,
+                        loop: true
+                    }
+                },
+                scales: {
+                    y: { // defining min and max so hiding the dataset does not change scale range
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+{% endblock %}
