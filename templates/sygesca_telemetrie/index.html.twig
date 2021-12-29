@@ -34,7 +34,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% set total_objectif = 0 %}{% set total_inscrit=0 %}{% set total_pourcent=0 %}
                                 {% for objectif in objectifs %}
                                     <tr>
                                         <td>{{ objectif.region }}</td>
@@ -42,9 +41,6 @@
                                         <td style="text-align:center;">{{ objectif.inscrit }}</td>
                                         <td style="text-align:center;">{{ objectif.pourcentage }}</td>
                                     </tr>
-                                    {% set total_objectif = total_objectif + objectif.valeur %}
-                                    {% set total_inscrit= total_inscrit + objectif.inscrit %}
-                                    {% set total_pourcent= total_pourcent + objectif.pourcentage %}
                                 {% endfor %}
                                 <tr><td colspan="10"></td></tr>
                                 </tbody>
@@ -53,7 +49,9 @@
                                     <th>TOTAUX</th>
                                     <th style="text-align:center;">{{ total_objectif }}</th>
                                     <th style="text-align:center;">{{ total_inscrit }}</th>
-                                    <th style="text-align:center;">{{ total_pourcent }}</th>
+                                    <th style="text-align:center;">
+                                        {{ total_pourcent}}
+                                    </th>
                                 </tr>
                                 </tfoot>
                             </table>
