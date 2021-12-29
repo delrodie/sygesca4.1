@@ -5,6 +5,7 @@
 	use App\Entity\Adherant;
 	use App\Entity\Cotisation;
 	use App\Entity\Sygesca3\District;
+	use App\Entity\Sygesca3\Objectif;
 	use App\Entity\Sygesca3\Region;
 	use App\Repository\CotisationRepository;
 	use Doctrine\ORM\EntityManagerInterface;
@@ -121,6 +122,30 @@
 					'created_at' => $adherant->getCreatedAt(),
 					'transaction_id' => $adherant->getIdTransaction(),
 					'show_url' => '<a href="show/'.$adherant->getIdTransaction().'" target="_blank" title="Clique ici">'.$adherant->getIdTransaction().'</a>'
+				];
+			}
+			
+			return $list;
+		}
+		
+		/**
+		 * Liste des objectifs et pourcentage pour l'année en cours
+		 * @return array
+		 */
+		public function listeObjectifs()
+		{
+			$annee = $this->annee();
+			$objectifs  = $this->em->getRepository(Objectif::class)->findBy(['annee'=>$annee]);
+			$list=[];$i=0;
+			foreach ($objectifs as $objectif)
+			{
+				$multiplicateur = 100 / (int) $objectif->getValeur(); //dd($multiplicateur);
+				$inscrits = count($this->cotisationRepository->findList($annee, $objectif->getRegion()->getId()));
+				$list[$i++]=[
+					'region' => $objectif->getRegion()->getNom(),
+					'valeur' => $objectif->getValeur(),
+					'inscrit' => $inscrits,
+					'pourcentage' => round($inscrits * $multiplicateur, 2)
 				];
 			}
 			

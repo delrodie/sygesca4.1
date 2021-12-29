@@ -26,6 +26,7 @@ class SygescaTelemetrieController extends AbstractController
 		$annee = $this->_cotisation->annee();
         return $this->render('sygesca_telemetrie/index.html.twig', [
             'regions' => $this->_cotisation->statistiquesRegion($annee),
+	        'objectifs' => $this->_cotisation->listeObjectifs()
         ]);
     }
 }

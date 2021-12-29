@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Objectif{% endblock %}
+
+{% block body %}
+    <h1>Objectif</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ objectif.id }}</td>
+            </tr>
+            <tr>
+                <th>Annee</th>
+                <td>{{ objectif.annee }}</td>
+            </tr>
+            <tr>
+                <th>Valeur</th>
+                <td>{{ objectif.valeur }}</td>
+            </tr>
+            <tr>
+                <th>PubliePar</th>
+                <td>{{ objectif.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>ModifiePar</th>
+                <td>{{ objectif.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>PublieLe</th>
+                <td>{{ objectif.publieLe ? objectif.publieLe|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifieLe</th>
+                <td>{{ objectif.modifieLe ? objectif.modifieLe|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sygesca_objectfif_index') }}">back to list</a>
+
+    <a href="{{ path('sygesca_objectfif_edit', {'id': objectif.id}) }}">edit</a>
+
+    {{ include('sygesca_objectfif/_delete_form.html.twig') }}
+{% endblock %}

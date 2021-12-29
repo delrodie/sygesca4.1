@@ -18,66 +18,50 @@
             </div>
         </div>
         <div class="row my-5">
-            <div class="card">
-                <div class="card-body statistiques">
-                    <div class="card-title">Statistiques par Région <i class="fas fa-print" onclick="imprimer('impression')"></i></div>
-                    <h6 class="card-subtitle"></h6>
-                    <div id="impression">
-                        <table class="table mt-5 table-responsive">
-                            <thead>
-                            <tr>
-                                <th>REGION</th>
-                                <th>TOTAL</th>
-                                <th>JEUNE</th>
-                                <th>ADULTE</th>
-                                <th>HOMME</th>
-                                <th>FEMME</th>
-                                <th>LOUVETEAU</th>
-                                <th>ECLAIREUR</th>
-                                <th>CHEMINOT</th>
-                                <th>ROUTIER</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% set tot=0 %}{% set jeune=0 %}{% set adulte=0 %}{% set homme=0 %}{% set femme=0 %}
-                            {% set louveteau=0 %}{% set eclaireur=0 %}{% set cheminot=0 %}{% set routier=0 %}
-                            {% for region in regions %}
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body statistiques">
+                        <div class="card-title">Statistiques par Région <i class="fas fa-print" onclick="imprimer('impression')"></i></div>
+                        <h6 class="card-subtitle"></h6>
+                        <div id="impression">
+                            <table class="table mt-5 table-responsive">
+                                <thead>
                                 <tr>
-                                    <td>{{ region.nom }}</td>
-                                    <td style="text-align:center;">{{ region.total }}</td>
-                                    <td style="text-align:center;">{{ region.jeune }}</td>
-                                    <td style="text-align:center;">{{ region.adulte }}</td>
-                                    <td style="text-align:center;">{{ region.homme }}</td>
-                                    <td style="text-align:center;">{{ region.femme }}</td>
-                                    <td style="text-align:center;">{{ region.louveteau }}</td>
-                                    <td style="text-align:center;">{{ region.eclaireur }}</td>
-                                    <td style="text-align:center;">{{ region.cheminot }}</td>
-                                    <td style="text-align:center;">{{ region.routier }}</td>
+                                    <th>REGION</th>
+                                    <th>OBJECTIFS</th>
+                                    <th>INSCRITS</th>
+                                    <th>POURCENTAGE (%)</th>
                                 </tr>
-                                {% set tot= tot + region.total %}{% set jeune= jeune + region.jeune %}{% set adulte= adulte + region.adulte %}
-                                {% set homme= homme + region.homme %}{% set femme= femme + region.femme %} {% set louveteau= louveteau + region.louveteau %}
-                                {% set eclaireur= eclaireur + region.eclaireur %}{% set cheminot= cheminot + region.cheminot %}{% set routier= routier + region.routier %}
-                            {% endfor %}
-                            <tr><td colspan="10"></td></tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>TOTAUX</th>
-                                <th style="text-align:center;">{{ tot }}</th>
-                                <th style="text-align:center;">{{ jeune }}</th>
-                                <th style="text-align:center;">{{ adulte }}</th>
-                                <th style="text-align:center;">{{ homme }}</th>
-                                <th style="text-align:center;">{{ femme }}</th>
-                                <th style="text-align:center;">{{ louveteau }}</th>
-                                <th style="text-align:center;">{{ eclaireur }}</th>
-                                <th style="text-align:center;">{{ cheminot }}</th>
-                                <th style="text-align:center;">{{ routier }}</th>
-                            </tr>
-                            </tfoot>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {% set total_objectif = 0 %}{% set total_inscrit=0 %}{% set total_pourcent=0 %}
+                                {% for objectif in objectifs %}
+                                    <tr>
+                                        <td>{{ objectif.region }}</td>
+                                        <td style="text-align:center;">{{ objectif.valeur }}</td>
+                                        <td style="text-align:center;">{{ objectif.inscrit }}</td>
+                                        <td style="text-align:center;">{{ objectif.pourcentage }}</td>
+                                    </tr>
+                                    {% set total_objectif = total_objectif + objectif.valeur %}
+                                    {% set total_inscrit= total_inscrit + objectif.inscrit %}
+                                    {% set total_pourcent= total_pourcent + objectif.pourcentage %}
+                                {% endfor %}
+                                <tr><td colspan="10"></td></tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>TOTAUX</th>
+                                    <th style="text-align:center;">{{ total_objectif }}</th>
+                                    <th style="text-align:center;">{{ total_inscrit }}</th>
+                                    <th style="text-align:center;">{{ total_pourcent }}</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-5"></div>
 
         </div>
 
@@ -104,7 +88,7 @@
                 datasets: [{
                     type: 'line',
                     label: '# objectifs',
-                    data: [{% for region in regions %}'{{ region.total }}',{% endfor %}],
+                    data: [{% for objectif in objectifs %}'{{ objectif.valeur }}',{% endfor %}],
                     backgroundColor: 'rgba(217, 68, 3, 1)',
                     borderColor: 'rgba(217,68,3, 1)',
                     borderWidth: 1

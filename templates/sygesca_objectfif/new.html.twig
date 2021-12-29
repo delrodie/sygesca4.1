@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Objectif{% endblock %}
+
+{% block body %}
+    <h1>Create new Objectif</h1>
+
+    {{ include('sygesca_objectfif/_form.html.twig') }}
+
+    <a href="{{ path('sygesca_objectfif_index') }}">back to list</a>
+{% endblock %}
