@@ -57,10 +57,10 @@
                     <a href="{{ absolute_url(path('sygesca_gestion_liste'))}}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                         <i class="fas fa-users-cog"></i> Scouts
                     </a>
+                    <a href="{{ absolute_url(path('sygesca_adherant_index')) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-users"></i> Adherents
+                    </a>
                     {% if is_granted('ROLE_FINANCE') %}
-                        <a href="{{ absolute_url(path('sygesca_adherant_index')) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                            <i class="fas fa-users"></i> Adherants
-                        </a>
                         <a href="{{ absolute_url(path('sygesca_finance_liste')) }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                                     class="fas fa-paperclip me-2"></i>Finances
                         </a>

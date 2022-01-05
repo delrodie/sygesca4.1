@@ -40,10 +40,11 @@ class SygescaAdherantController extends AbstractController
 	    if ($role[0] === 'ROLE_USER'){
 		    if ($role[1] === 'ROLE_REGION'){
 			    $compte = $this->getDoctrine()->getRepository(Compte::class)->findOneBy(['user'=>$user->getId()]);
-							
+						
 			    //return $this->redirectToRoute('sygesca_gestion_region',['regionSlug'=>$compte->getRegion()->getSlug()]);
 			    return $this->render('sygesca_adherant/region.html.twig',[
-				    'adherants' => $this->_cotisation->listeAdherants($annee, $compte->getRegion()->getId())
+				    'adherants' => $this->_cotisation->listeAdherants($annee, $compte->getRegion()->getId()),
+				    'region' => $this->getDoctrine()->getRepository(Region::class)->findOneBy(['id'=>$compte->getRegion()->getId()])
 			    ]);
 		    }
 	    }
@@ -68,7 +69,7 @@ class SygescaAdherantController extends AbstractController
 		$district = $request->get('district');
 		
 		$annee = $this->_cotisation->annee();
-		$scouts = $this->_cotisation->listeAdherants($annee);
+		$scouts = $this->_cotisation->listeAdherants($annee,$region);
 		
 		return $this->json($scouts);
 	}

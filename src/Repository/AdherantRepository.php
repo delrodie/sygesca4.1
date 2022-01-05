@@ -57,7 +57,7 @@
 				->where('a.statuspaiement = :status')
 				
 			;
-			if (!$region){
+			if (!$region){ //dd('ici');
 				$query->setParameter('status', "UNKNOW");
 			}else{
 				$query->andWhere('r.id = :region')

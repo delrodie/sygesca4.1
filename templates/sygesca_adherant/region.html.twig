@@ -15,8 +15,8 @@
 								<thead>
 								<tr style="text-align:center;">
 									<th>ID</th>
-									<th>REGION</th>
 									<th>DISTRICT</th>
+									<th>GROUPE</th>
 									<th>NOM & PRENOMS</th>
 									<th>SEXE</th>
 									<th>FONCTION</th>
@@ -54,13 +54,13 @@
 
             $('#liste').DataTable( {
                 "ajax": {
-                    url: '{{ absolute_url(path("sygesca_adherant_ajax")) }}',
+                    url: '{{ absolute_url(path("sygesca_adherant_ajax")) }}?region='+ {{ region.id }},
                     dataSrc: ''
                 },
                 "columns": [
                     { "data": "loop_index" },
-                    { "data": "region" },
                     { "data": "district" },
+                    { "data": "groupe" },
                     { "data": "identite_civile" },
                     { "data": "sexe" },
                     { "data": "fonction" },
