@@ -38,7 +38,8 @@ class SygescaTelemetrieController extends AbstractController
 	        'objectifs' => $objectifs,
 	        'total_pourcent' => $total_pourcentage,
 	        'total_inscrit' => $total_inscrit,
-	        'total_objectif' => $total_objectif
+	        'total_objectif' => $total_objectif,
+	        'annee' => $annee
         ]);
     }
 }

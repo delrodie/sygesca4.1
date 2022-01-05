@@ -41,6 +41,17 @@ class ValidationAutomatiqueController extends AbstractController
         ]);
     }
 	
+	/**
+	 * @Route("/{idTransaction}", name="suppression", methods={"GET","POST"})
+	 */
+	public function suppression($idTransaction)
+	{
+	
+	}
+	
+	/**
+	 * @return Validation|mixed|object
+	 */
 	function apiCinetpay()
 	{
 		// Verification de l'existence de la table validation

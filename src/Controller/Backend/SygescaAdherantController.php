@@ -6,6 +6,7 @@ use App\Entity\Adherant;
 use App\Entity\Compte;
 use App\Entity\Sygesca3\Region;
 use App\Utilities\GestionCotisation;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,6 +107,33 @@ class SygescaAdherantController extends AbstractController
 		]);
 	}
 	
+	/**
+	 * @Route("/{idTransaction}/delete/", name="sygesca_adherant_delete", methods={"GET","POST"})
+	 */
+	public function delete($idTransaction, EntityManagerInterface $entityManager)
+	{
+		$adherant = $entityManager->getRepository(Adherant::class)->findOneBy(['idtransaction'=>$idTransaction]);
+		if ($adherant){
+			if ($adherant->getStatuspaiement() === 'UNKNOW'){
+				$entityManager->remove($adherant);
+				$entityManager->flush();
+				
+				$this->addFlash('success', "Les informations de l'adhérent ".$adherant->getNom().' '.$adherant->getPrenoms()." ont été réinitialisées avec succès!");
+				
+			}else{
+				$this->addFlash('warning', "Impossible de réinitialiser les informations de l'adhérent ".$adherant->getNom().' '.$adherant->getPrenoms(). ". Merci de contacter les administrateurs");
+			}
+		}else{
+			$this->addFlash('danger', "Cet adhérent n'existe pas dans le système!");
+		}
+		
+		return $this->redirectToRoute('sygesca_adherant_index', [], Response::HTTP_SEE_OTHER);
+	}
+	
+	/**
+	 * @param $adherant
+	 * @return mixed
+	 */
 	protected function apiCinetpay($adherant)
 	{
 		$parametres = [

@@ -21,7 +21,7 @@
             <div class="col-md-7">
                 <div class="card">
                     <div class="card-body statistiques">
-                        <div class="card-title">Statistiques par Région <i class="fas fa-print" onclick="imprimer('impression')"></i></div>
+                        <div class="card-title">Objectifs année {{ annee}} <i class="fas fa-print" onclick="imprimer('impression')"></i></div>
                         <h6 class="card-subtitle"></h6>
                         <div id="impression">
                             <table class="table mt-5 table-responsive">
@@ -59,7 +59,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5"></div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="Donut"></canvas>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -116,6 +122,24 @@
                 }
             }
         });
-
+        const Donut = new Chart(ctx,{
+            data: {
+                labels: [
+                    'Red',
+                    'Blue',
+                    'Yellow'
+                ],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [300, 50, 100],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        })
     </script>
 {% endblock %}
