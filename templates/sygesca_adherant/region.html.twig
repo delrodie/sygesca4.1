@@ -1,7 +1,7 @@
 {% extends 'backend_layout.html.twig' %}
 
-{% block title %}{{ parent() }} Liste des membres 2021-2022{% endblock %}
-{% block entete %}Liste des adherants 2021-2022{% endblock %}
+{% block title %}{{ parent() }} Liste des adherents 2021-2022{% endblock %}
+{% block entete %}Liste des adherents 2021-2022{% endblock %}
 
 {% block body %}
 	<div class="container-fluid px-4">
@@ -9,6 +9,16 @@
 		<div class="row my-5">
 			<div class="card">
 				<div class="card-body">
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+								{{ message }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
 					<div class="row">
 						<div class="col mt-5 tableau-liste">
 							<table id="liste" class="compact display" style="width: 100%;">
